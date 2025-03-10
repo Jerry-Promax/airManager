@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.airticketmanager.mapper.UserMapper">
+
+    <resultMap id="UserResultMap" type="com.example.airticketmanager.entity.User">
+        <id property="userId" column="user_id"/>
+        <result property="username" column = "username"/>
+        <result property = "password" column = "password"/>
+        <result property = "sex" column = "sex"/>
+        <result property = "tel" column = "tel"/>
+        <result property="createTime" column="create_time"/>
+        <!-- 其他属性映射 -->
+    </resultMap>
+
+    <select id="selectUsersByPage" resultType="com.example.airticketmanager.entity.User" resultMap="UserResultMap">
+        SELECT * FROM user LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countUsers" resultType="int">
+        SELECT COUNT(*) FROM user
+    </select>
+
+    <select id="selectByUsername" resultType="com.example.airticketmanager.entity.User" resultMap="UserResultMap">
+        SELECT * FROM user
+        WHERE username LIKE CONCAT('%', #{username}, '%')
+        LIMIT #{limit}
+        OFFSET #{offset}
+    </select>
+<!--    offset关键字是用于指定从结果集的哪一行开始返回数据，不包括本身那一行-->
+
+
+    <select id="countSelectUsers" resultType="int">
+        SELECT COUNT(*) FROM user where username LIKE CONCAT('%', #{username}, '%')
+    </select>
+</mapper>
