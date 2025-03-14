@@ -2,40 +2,26 @@ package com.example.airticketmanager.service;
 
 import com.example.airticketmanager.entity.User;
 
-import java.util.List;
-
 public interface UserService {
-
     /**
-     * 新增员工
-     * @param user
+     * 查看用户名的唯一性
+     * @param username
      * @return
      */
-    void insert(User user);
+    boolean isUsernameExists(String username);
 
     /**
-     * 删除员工
-     * @param uids
-     */
-    void deleteById(List<Integer> uids);
-
-    /**
-     * 分页查询
-     *
-     * @param page
-     * @param size
+     * 查看电话号码的唯一性
+     * @param tel
      * @return
      */
-    List<User> getUsersByPage(int page, int size);
+    boolean isTelExists(String tel);
 
-    int countUsers();
-
-
-    User selectById(int userId);
-
-    int updateUser(User user);
-    // Todo
-    List<User> selectByUsername(String username,int page,int size);
-
-    int countSelectUsers(String username);
+    /**
+     * 登录
+     * @param username
+     * @param password
+     * @return
+     */
+    boolean login(String username, String password);
 }

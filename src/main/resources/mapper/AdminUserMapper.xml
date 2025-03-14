@@ -3,8 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.airticketmanager.mapper.UserMapper">
+<mapper namespace="com.example.airticketmanager.mapper.AdminUserMapper">
 
+<!--    取id就是为了哪个方法要使用这个结果集映射就使用-->
     <resultMap id="UserResultMap" type="com.example.airticketmanager.entity.User">
         <id property="userId" column="user_id"/>
         <result property="username" column = "username"/>
