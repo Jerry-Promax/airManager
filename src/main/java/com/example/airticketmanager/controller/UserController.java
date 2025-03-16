@@ -56,10 +56,19 @@ public class UserController {
             return "register";
         }
         log.info("开始插入用户");
-        adminUserService.insert(user);
-        return "redirect:/user/login";
+        adminUserService.insertAudit(user);
+        // Todo 跳转到提示框待审核，从提示框跳转到登录界面
+        return "redirect:/user/tap";
     }
 
+    /**
+     * 提示页
+     * @return
+     */
+    @GetMapping("/tap")
+    public String tap(){
+        return "tap";
+    }
     /**
      * 返回登录页
      * @return

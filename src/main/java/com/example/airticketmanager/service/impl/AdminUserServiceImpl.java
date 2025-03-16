@@ -1,9 +1,12 @@
 package com.example.airticketmanager.service.impl;
 
+import com.example.airticketmanager.entity.AuditUser;
 import com.example.airticketmanager.entity.User;
 import com.example.airticketmanager.mapper.AdminUserMapper;
+import com.example.airticketmanager.mapper.AuditMapper;
 import com.example.airticketmanager.service.AdminUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,8 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Autowired
     private AdminUserMapper adminUserMapper;
+    @Autowired
+    private AuditMapper auditMapper;
 
     /**
      * 新增员工
@@ -77,6 +82,36 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public int countSelectUsers(String username) {
         return adminUserMapper.countSelectUsers();
+    }
+
+    @Override
+    public List<User> getAuditUsersByPage(int page, int size) {
+        int offset = (page - 1) * size;
+        return adminUserMapper.selectAuditUsersByPage(offset, size);
+    }
+
+    /**
+     * 插入审核表
+     * @param user
+     */
+    @Override
+    public void insertAudit(User user) {
+        auditMapper.insertAudit(user);
+    }
+
+    /**
+     * 根据审核id查找用户
+     * @param auditId
+     * @return
+     */
+    @Override
+    public AuditUser getAuditUserById(int auditId) {
+        return auditMapper.getAuditUserById(auditId);
+    }
+
+    @Override
+    public void deleteByAuditId(int auditId) {
+        auditMapper.deleteByAuditId(auditId);
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.airticketmanager.mapper;
 
+import com.example.airticketmanager.entity.AuditUser;
 import com.example.airticketmanager.entity.User;
 import org.apache.ibatis.annotations.*;
 
@@ -30,7 +31,6 @@ public interface AdminUserMapper {
      * @return 用户列表
      */
 
-
     List<User> selectUsersByPage(@Param("offset") int offset, @Param("limit") int limit);
     int countUsers();
 
@@ -49,4 +49,8 @@ public interface AdminUserMapper {
     List<User> selectByUsername(@Param("username") String username,@Param("offset") int offset, @Param("limit") int limit);
 
     int countSelectUsers();
+
+    List<User> selectAuditUsersByPage(@Param("offset") int offset, @Param("limit") int limit);
+
+
 }

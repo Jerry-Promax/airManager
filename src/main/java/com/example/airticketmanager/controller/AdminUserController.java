@@ -1,5 +1,6 @@
 package com.example.airticketmanager.controller;
 
+import com.example.airticketmanager.entity.AuditUser;
 import com.example.airticketmanager.entity.User;
 import com.example.airticketmanager.service.AdminUserService;
 import jakarta.servlet.http.HttpSession;
@@ -138,5 +139,39 @@ public class AdminUserController {
         return "selectList"; // 返回视图名称
     }
 
+    @GetMapping("/auditUserList")
+    public String auditUserList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            Model model
+    ){
+        List<User> auditUsers = adminUserService.getAuditUsersByPage(page, size);
+        int totalCount = adminUserService.countUsers();
+        int totalPages = (int) Math.ceil((double) totalCount / size);
+        model.addAttribute("users", auditUsers);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalCount", totalCount);
+        return "auditUser"; // 返回视图名称
+    }
 
+    @PostMapping("/auditPass")
+    public String audit(@RequestParam int auditId){
+
+        AuditUser auditUser = adminUserService.getAuditUserById(auditId);
+        User user = new User();
+        user.setUsername(auditUser.getUsername());
+        user.setPassword(auditUser.getPassword());
+        user.setSex(auditUser.getSex());
+        user.setTel(auditUser.getTel());
+        adminUserService.insert(user);
+        adminUserService.deleteByAuditId(auditId);
+        return "redirect:/admin/auditUserList";
+    }
+
+    @PostMapping("/reject")
+    public String reject(@RequestParam int auditId){
+        adminUserService.deleteByAuditId(auditId);
+        return "redirect:/admin/auditUserList";
+    }
 }

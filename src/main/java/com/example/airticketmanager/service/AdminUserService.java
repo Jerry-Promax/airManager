@@ -1,5 +1,6 @@
 package com.example.airticketmanager.service;
 
+import com.example.airticketmanager.entity.AuditUser;
 import com.example.airticketmanager.entity.User;
 
 import java.util.List;
@@ -51,4 +52,34 @@ public interface AdminUserService {
     List<User> selectByUsername(String username,int page,int size);
 
     int countSelectUsers(String username);
+
+    /**
+     * 审核用户列表
+     * @param page
+     * @param size
+     * @return
+     */
+    List<User> getAuditUsersByPage(int page, int size);
+
+    /**
+     * 插入审核表
+     * @param user
+     */
+    void insertAudit(User user);
+
+    /**
+     * 根据审核id查找用户
+     * @param auditId
+     * @return
+     */
+    AuditUser getAuditUserById(int auditId);
+    /**
+     * 审核通过后根据这个id删除记录
+     * @param auditId
+     */
+    void deleteByAuditId(int auditId);
+
+
+
+
 }
