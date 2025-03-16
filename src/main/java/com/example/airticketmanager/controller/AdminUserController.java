@@ -18,7 +18,6 @@ import java.util.List;
 @RequestMapping("/admin")
 @Slf4j
 public class AdminUserController {
-
     @Autowired
     private AdminUserService adminUserService;
     /**
