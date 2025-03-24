@@ -1,0 +1,53 @@
+package com.example.airticketmanager.mapper;
+
+import com.example.airticketmanager.entity.Flight;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+
+@Mapper
+public interface AdminFlightMapper {
+
+    @Results({
+            @Result(property = "flightNumber", column = "flight_number"),
+            @Result(property = "departureTime", column = "departure_time"),
+            @Result(property = "arrivalTime", column = "arrival_time"),
+            @Result(property = "departure", column = "departure"),
+            @Result(property = "arrival", column = "arrival"),
+            @Result(property = "totalSeats", column = "total_seats"),
+            @Result(property = "availableSeats", column = "available_seats")
+    })
+
+    /**
+     * 分页查询
+     * @param offset
+     * @param limit
+     * @return
+     */
+    List<Flight> selectFlightsByPage(@Param("offset") int offset, @Param("limit") int limit);
+
+    int countFlights();
+
+    /**
+     * 增加航班
+     * @param flight
+     */
+    @Insert("INSERT INTO flights (flight_number, departure_time, arrival_time, departure, arrival, total_seats, available_seats) VALUES" +
+            "(#{flightNumber},#{departureTime},#{arrivalTime},#{departure},#{arrival},#{totalSeats},#{availableSeats})")
+    void insert(Flight flight);
+
+    @Select("select * from flights where flight_number = #{flightNumber}")
+    Flight selectByFlightNumber(String flightNumber);
+
+    @Update("UPDATE flights SET " +
+            "departure_time = #{departureTime}, " +
+            "arrival_time = #{arrivalTime}, " +
+            "departure = #{departure}, " +
+            "arrival = #{arrival}, " +
+            "total_seats = #{totalSeats}, " +
+            "available_seats = #{availableSeats} " +
+            "WHERE flight_number = #{flightNumber}")
+    int updateFlight(Flight flight);
+
+
+}

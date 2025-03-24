@@ -4,7 +4,14 @@ spring:
     url: jdbc:mysql://localhost:3306/air_manager?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 123456
+  mvc:
+    format:
+      date-time: yyyy-MM-dd'T'HH:mm  # 匹配前端输入格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss  # 数据库存储格式
+    time-zone: Asia/Shanghai
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
+

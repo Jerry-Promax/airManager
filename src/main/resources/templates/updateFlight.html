@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
-
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,47 +22,48 @@
     <style>
         .container {
             display: flex;
-            justify-content: center;
-            align-items: center;
-           
-            background-color: #f4f4f9;
-            padding: 20px;
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            height: 100vh; /* 使容器高度占满整个视口 */
+            background-color: #f4f4f9; /* 背景颜色 */
         }
 
+        /* 表单容器 */
         .form-container {
             background-color: #fff;
-            padding: 20px; /* 减少内边距 */
+            padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px; /* 缩小表单容器最大宽度 */
+            width: 500px; /* 拓宽表格宽度 */
         }
 
+        /* 标题 */
         .form-container h2 {
-            margin-bottom: 20px; /* 减少标题下边距 */
-            font-size: 1.5rem; /* 缩小标题字体大小 */
+            margin-bottom: 25px;
+            font-size: 28px;
             text-align: center;
             color: #333;
         }
 
+        /* 表单项 */
         .form-group {
-            margin-bottom: 15px; /* 减少表单项下边距 */
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 6px; /* 减少标签下边距 */
+            margin-bottom: 8px;
             font-weight: 600;
             color: #555;
-            font-size: 0.9rem; /* 缩小标签字体大小 */
         }
 
         .form-group input {
             width: 100%;
-            padding: 8px; /* 减少输入框内边距 */
+            padding: 12px;
+            box-sizing: border-box;
             border: 1px solid #ddd;
             border-radius: 6px;
-            font-size: 0.9rem; /* 缩小输入框字体大小 */
+            font-size: 16px;
             color: #333;
             transition: border-color 0.3s ease;
         }
@@ -74,43 +74,22 @@
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
 
+        /* 提交按钮 */
         .submit-btn {
             width: 100%;
-            padding: 10px; /* 减少按钮内边距 */
+            padding: 14px;
             background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 1rem; /* 缩小按钮字体大小 */
+            font-size: 18px;
             font-weight: 600;
             transition: background-color 0.3s ease;
         }
 
         .submit-btn:hover {
             background-color: #0056b3;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 600px) {
-            .form-container {
-                width: 90%;
-                padding: 15px; /* 进一步减少内边距 */
-            }
-
-            .form-container h2 {
-                font-size: 1.25rem; /* 进一步缩小标题字体大小 */
-            }
-
-            .form-group input {
-                padding: 6px; /* 进一步减少输入框内边距 */
-                font-size: 0.85rem; /* 进一步缩小输入框字体大小 */
-            }
-
-            .submit-btn {
-                padding: 8px; /* 进一步减少按钮内边距 */
-                font-size: 0.9rem; /* 进一步缩小按钮字体大小 */
-            }
         }
     </style>
 
@@ -144,7 +123,7 @@
                     <!-- ============================================================== -->
                     <div class="navbar-brand">
                         <!-- Logo icon -->
-                        <a href="index.html">
+                        <a href="list.html">
                             <b class="logo-icon">
                                 <!-- Dark Logo icon -->
                                 <img src="/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
@@ -357,7 +336,7 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="index.html"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="list.html"
                                 aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
                                     class="hide-menu">Dashboard</span></a></li>
                         <li class="list-divider"></li>
@@ -591,7 +570,7 @@
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html" class="text-muted">Apps</a></li>
+                                    <li class="breadcrumb-item"><a href="list.html" class="text-muted">Apps</a></li>
                                     <li class="breadcrumb-item text-muted active" aria-current="page">Ticket List</li>
                                 </ol>
                             </nav>
@@ -616,65 +595,67 @@
             <!-- ============================================================== -->
             <div class="container">
                 <!-- 表单容器 -->
-                <div class="form-container" style="position: relative;">
-                    <h2>编辑员工信息</h2>
-                    <form th:action="@{/admin/user/updateUser/{userId}(userId=${user.userId})}"
-                          th:object="${user}"
-                          method="post"
-                          id="editUserForm">
-
-                        <!-- 隐藏域保存UID -->
-                        <input type="hidden" name="userId" th:field="*{userId}">
-
+                <div class="form-container">
+                    <h2>修改航班信息</h2>
+                    <form th:action="@{/admin/flight/updateFlight/{flightNumber}(flightNumber=${flight.flightNumber})}" th:object="${flight}" method="post">
+                        <!-- 隐藏字段确保 flightNumber 提交 -->
+                        <input type="hidden" th:field="*{flightNumber}">
                         <div class="form-group">
-                            <label>用户名：</label>
-                            <input type="text" class="form-control"
-                                   th:field="*{username}"
-                                   required
-                                   minlength="2"
-                                   maxlength="20">
-                            <small class="form-text text-danger"
-                                   th:if="${#fields.hasErrors('username')}"
-                                   th:errors="*{username}"></small>
+                            <label for="departure">航班编号:</label>
+                            <input type="text" id="flight_number" name="flightNumber"
+                                   th:field="*{flightNumber}"
+                                   readonly>
+                        </div>
+                        <!-- 起飞时间 -->
+                        <div class="form-group">
+                            <label for="departureTime">起飞时间:</label>
+                            <input type="datetime-local" id="departureTime" name="departureTime"
+                                   pattern="yyyy-MM-dd'T'HH:mm"
+                                   th:field="*{departureTime}"
+                                   placeholder="请选择起飞时间" required>
                         </div>
 
                         <div class="form-group">
-                            <label>密码：</label>
-                            <input type="text" class="form-control"
-                                   th:field="*{password}"
-                                   required
-                                   minlength="6">
-                            <small class="form-text text-danger"
-                                   th:if="${#fields.hasErrors('password')}"
-                                   th:errors="*{password}"></small>
+                            <label for="arrivalTime">到达时间:</label>
+                            <input type="datetime-local" id="arrivalTime" name="arrivalTime"
+                                   pattern="yyyy-MM-dd'T'HH:mm"
+                                   th:field="*{arrivalTime}"
+                                   placeholder="请选择到达时间" required>
                         </div>
 
+                        <!-- 起飞地 -->
                         <div class="form-group">
-                            <label>性别：</label>
-                            <select class="form-control" th:field="*{sex}">
-                                <option value="男">男</option>
-                                <option value="女">女</option>
-                            </select>
+                            <label for="departure">起飞地:</label>
+                            <input type="text" id="departure" name="departure"
+                                   th:field="*{departure}"
+                                   placeholder="例如：北京" required>
                         </div>
 
+                        <!-- 到达地 -->
                         <div class="form-group">
-                            <label>电话号码：</label>
-                            <input type="tel" class="form-control"
-                                   th:field="*{tel}"
-                                   pattern="[0-9]{11}"
-                                   required>
-                            <small class="form-text text-muted">请输入11位手机号码</small>
+                            <label for="arrival">到达地:</label>
+                            <input type="text" id="arrival" name="arrival"
+                                   th:field="*{arrival}"
+                                   placeholder="例如：上海" required>
                         </div>
 
+                        <!-- 总座位数 -->
                         <div class="form-group">
-                            <label>账号状态：</label>
-                            <select class="form-control" th:field="*{status}">
-                                <option value="1">正常</option>
-                                <option value="0">禁用</option>
-                            </select>
+                            <label for="totalSeats">总座位数:</label>
+                            <input type="number" id="totalSeats" name="totalSeats"
+                                   th:field="*{totalSeats}"
+                                   min="1" required>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">提交修改</button>
+                        <!-- 可用座位数 -->
+                        <div class="form-group">
+                            <label for="availableSeats">可用座位数:</label>
+                            <input type="number" id="availableSeats" name="availableSeats"
+                                   th:field="*{availableSeats}"
+                                   min="0" required>
+                        </div>
+
+                        <button type="submit" class="submit-btn">提交</button>
                     </form>
                 </div>
             </div>
@@ -684,9 +665,9 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <!-- <footer class="footer text-center text-muted">
+            <footer class="footer text-center text-muted">
                 All Rights Reserved by Adminmart. <a target="_blank" href="http://www.mobanwang.com/" title="模板王">模板王</a>.
-            </footer> -->
+            </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->

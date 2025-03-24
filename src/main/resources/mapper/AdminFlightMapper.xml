@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.airticketmanager.mapper.AdminFlightMapper">
+
+<!--    <resultMap id="flightResultMap" type="Flight">-->
+<!--        <result column="departure_time" property="departureTime"/>-->
+<!--        <result column="arrival_time" property="arrivalTime"/>-->
+<!--        <result column="flightNumber" property = "flight_number"/>-->
+<!--        <result column="departure" property="departure"/>-->
+<!--        <result column="arrival" property="arrival"/>-->
+<!--        <result column="totalSeats" property="total_seats"/>-->
+<!--        <result column="availableSeats" property="available_seats"/>-->
+<!--    </resultMap>-->
+<!--    <update id="updateFlight">-->
+<!--        UPDATE flights-->
+<!--        <set>-->
+<!--            &lt;!&ndash; 动态处理字段更新 &ndash;&gt;-->
+<!--            <if test="departureTime != null">-->
+<!--                departure_time = #{departureTime},-->
+<!--            </if>-->
+<!--            <if test="arrivalTime != null">-->
+<!--                arrival_time = #{arrivalTime},-->
+<!--            </if>-->
+<!--            <if test="departure != null and departure != ''">-->
+<!--                departure = #{departure},-->
+<!--            </if>-->
+<!--            <if test="arrival != null and arrival != ''">-->
+<!--                arrival = #{arrival},-->
+<!--            </if>-->
+<!--            <if test="totalSeats != null and totalSeats > 0">-->
+<!--                total_seats = #{totalSeats},-->
+<!--            </if>-->
+<!--            <if test="availableSeats != null and availableSeats >= 0">-->
+<!--                available_seats = #{availableSeats},-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        WHERE flight_number = #{flightNumber}-->
+<!--    </update>-->
+
+
+    <select id="selectFlightsByPage" resultType="com.example.airticketmanager.entity.Flight" >
+        SELECT * FROM flights LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countFlights" resultType="int">
+        SELECT COUNT(*) FROM flights
+    </select>
+
+
+</mapper>

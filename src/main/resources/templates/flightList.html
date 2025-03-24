@@ -306,7 +306,7 @@
                                 <span class="hide-menu">审核列表</span>
                             </a>
                         </li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" th:href="@{/admin/user/auditUserList}"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" th:href="@{/admin/flight/list(page=1, size=10)}"
                                 aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i>
                             <span class="hide-menu">航班列表</span></a></li>
 
@@ -599,13 +599,13 @@
 
                                 <div class="input-group">
                                     <!-- 录入按钮 -->
-                                    <a th:href="@{/admin/user/addUser}">
+                                    <a th:href="@{/admin/flight/addFlight}">
                                         <button class="btn btn-primary add-button">录入</button>
                                     </a>
                                     <!-- 查询框和搜索按钮的子容器 -->
                                     <div class="search-group">
-                                        <form th:action="@{/admin/user/selectByUsername}" th:object="${user}" method="get">
-                                            <input type="text" th:field="*{username}" placeholder="搜索用户名">
+                                        <form th:action="@{/admin/flight/selectByFlightNumber}" th:object="${flight}" method="get">
+                                            <input type="text" th:field="*{flightNumber}" placeholder="搜索用户名">
                                             <button type="submit" class="btn btn-primary">搜索</button>
                                         </form>
                                     </div>
@@ -629,52 +629,53 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="flight : ${flights}">
+                                        <tr th:each="flight : ${flightList}">
                                             <td class="checkbox-cell" style="text-align: center;">
                                                 <input type="checkbox" name="uids" class="form-check-input select-checkbox"
                                                        th:value="${flight.flightId}" style="position: relative;margin: auto;">
                                             </td>
                                             <td th:text="${flight.flightNumber}"></td>
-                                            <td th:text="${flight.departureTime}"></td>
-                                            <td th:text="${flight.arrivalTime}"></td>
                                             <td th:text="${flight.departure}"></td>
                                             <td th:text="${flight.arrival}"></td>
                                             <td th:text="${flight.totalSeats}"></td>
-                                            <td th:text="${flight.avaliableSeats}"></td>
+                                            <td th:text="${flight.availableSeats}"></td>
+                                            <td th:text="${flight.departureTime}"></td>
+                                            <td th:text="${flight.arrivalTime}"></td>
+
                                             <td>
-                                                <a th:href="@{/admin/user/updateUser/{userId}(userId=${user.userId})}"
+                                                <a th:href="@{/admin/flight/updateFlight/{flightNumber}(flightNumber=${flight.flightNumber})}"
                                                    class="btn btn-sm btn-primary">
                                                     编辑
                                                 </a>
-                                                <form th:action="@{/admin/user/deleteUser}" method="post" style="display: inline;">
-                                                    <input type="hidden" name="uids" th:value="${user.userId}">
-                                                    <button type="submit" class="btn btn-sm btn-danger">删除</button>
-                                                </form>
+<!--                                                <form th:action="@{/admin/user/deleteUser}" method="post" style="display: inline;">-->
+<!--                                                    <input type="hidden" name="uids" th:value="${user.userId}">-->
+<!--                                                    <button type="submit" class="btn btn-sm btn-danger">删除</button>-->
+<!--                                                </form>-->
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                    <!-- 批量删除按钮 -->
-                                    <form id="batchDeleteForm" th:action="@{/admin/user/deleteUser}" method="post">
-                                        <button type="button" id="batchDeleteBtn" class="btn btn-danger">批量删除</button>
-                                    </form>
+<!--                                    &lt;!&ndash; 批量删除按钮 &ndash;&gt;-->
+<!--                                    <form id="batchDeleteForm" th:action="@{/admin/user/deleteUser}" method="post">-->
+<!--                                        <button type="button" id="batchDeleteBtn" class="btn btn-danger">批量删除</button>-->
+<!--                                    </form>-->
                                     <!-- 分页组件 -->
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination">
                                             <!-- 上一页 -->
                                             <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
-                                                <a class="page-link" th:href="@{/admin/user/list(page=${currentPage - 1}, size=${10})}">上一页</a>
+                                                <a class="page-link" th:href="@{/admin/flight/list(page=${currentPage - 1}, size=${10})}">上一页</a>
                                             </li>
 
                                             <!-- 页码 -->
                                             <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage} ? 'active' : ''">
-                                                <a class="page-link" th:href="@{/admin/user/list(page=${i}, size=${10})}" th:text="${i}"></a>
+                                                <a class="page-link" th:href="@{/admin/flight/list(page=${i}, size=${10})}" th:text="${i}"></a>
                                             </li>
 
                                             <!-- 下一页 -->
                                             <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
-                                                <a class="page-link" th:href="@{/admin/user/list(page=${currentPage + 1}, size=${10})}">下一页</a>
+                                                <a class="page-link" th:href="@{/admin/flight/list(page=${currentPage + 1}, size=${10})}">下一页</a>
                                             </li>
                                         </ul>
                                     </nav>
