@@ -600,11 +600,16 @@
                                         <button class="btn btn-primary add-button">录入</button>
                                     </a>
                                     <!-- 查询框和搜索按钮的子容器 -->
-                                    <form th:action="@{/admin/selectByUsername}" th:object="${user}" method="get" class="search-group">
-                                        <input type="text"
-                                               th:field="*{username}"
-                                               placeholder="请输入用户名"
-                                               class="form-control">
+<!--                                    <form th:action="@{/admin/selectByUsername}" th:object="${user}" method="get" class="search-group">-->
+<!--                                        <input type="text"-->
+<!--                                               th:field="*{username}"-->
+<!--                                               placeholder="请输入用户名"-->
+<!--                                               class="form-control">-->
+<!--                                        <input type="hidden" name="page" th:value="1"> &lt;!&ndash; 搜索时重置页码 &ndash;&gt;-->
+<!--                                        <button type="submit" class="btn btn-primary">搜索</button>-->
+<!--                                    </form>-->
+                                    <form th:action="@{/admin/selectByUsername}" method="get" class="search-group">
+                                        <input type="text" name="username" placeholder="请输入用户名" class="form-control">
                                         <input type="hidden" name="page" th:value="1"> <!-- 搜索时重置页码 -->
                                         <button type="submit" class="btn btn-primary">搜索</button>
                                     </form>

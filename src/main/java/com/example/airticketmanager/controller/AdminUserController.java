@@ -54,9 +54,10 @@ public class AdminUserController {
                             Model model) {
         // 若未登录则直接返回login页面
         if (httpSession.getAttribute("username") == null) {
+
             return "redirect:/user/login";
         }
-        // 初始化空对象（首次访问时user为null）
+        // 初始化搜索框空对象（首次访问时user为null）
         if (user == null) {
             user = new User();
             model.addAttribute("user", user);
@@ -124,12 +125,12 @@ public class AdminUserController {
     @GetMapping("/selectByUsername")
     public String selectByUsername(@RequestParam(defaultValue = "1") int page,
                             @RequestParam(defaultValue = "10") int size,
-                            @ModelAttribute("user") User user, //@ModelAttribute绑定数据
+                            @RequestParam(value = "username") String username, //@ModelAttribute绑定数据
                             Model model) {
-        log.info("用户:{}",user);
-        List<User> users = adminUserService.selectByUsername(user.getUsername(),page,size);
-        log.info("用户:{}",user);
-        int totalCount = adminUserService.countSelectUsers(user.getUsername());
+        log.info("用户:{}",username);
+        List<User> users = adminUserService.selectByUsername(username,page,size);
+        log.info("用户:{}",username);
+        int totalCount = adminUserService.countSelectUsers(username);
         int totalPages = (int) Math.ceil((double) totalCount / size);
         model.addAttribute("users", users);
         model.addAttribute("currentPage", page);
@@ -138,6 +139,13 @@ public class AdminUserController {
         return "selectList"; // 返回视图名称
     }
 
+    /**
+     * 审核用户列表
+     * @param page
+     * @param size
+     * @param model
+     * @return
+     */
     @GetMapping("/auditUserList")
     public String auditUserList(
             @RequestParam(defaultValue = "1") int page,
@@ -154,6 +162,11 @@ public class AdminUserController {
         return "auditUser"; // 返回视图名称
     }
 
+    /**
+     * 审核通过
+     * @param auditId
+     * @return
+     */
     @PostMapping("/auditPass")
     public String audit(@RequestParam int auditId){
 
@@ -168,6 +181,11 @@ public class AdminUserController {
         return "redirect:/admin/auditUserList";
     }
 
+    /**
+     * 审核失败
+     * @param auditId
+     * @return
+     */
     @PostMapping("/reject")
     public String reject(@RequestParam int auditId){
         adminUserService.deleteByAuditId(auditId);
