@@ -90,7 +90,7 @@ public class UserController {
                         RedirectAttributes redirectAttributes){
         if (userService.login(username,password)){
             httpSession.setAttribute("username",username);
-            return "redirect:/admin/list";
+            return "redirect:/admin/user/list";
         }
         redirectAttributes.addAttribute("error","用户名或密码错误");
         return "redirect:/user/login";

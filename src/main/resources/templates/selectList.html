@@ -295,17 +295,20 @@
                         <li class="nav-small-cap"><span class="hide-menu">Applications</span></li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link" th:href="@{/admin/list(page=1, size=10)}" aria-expanded="false">
+                            <a class="sidebar-link" th:href="@{/admin/user/list(page=1, size=10)}" aria-expanded="false">
                                 <i data-feather="tag" class="feather-icon"></i>
                                 <span class="hide-menu">用户列表</span>
                             </a>
                         </li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="app-chat.html"
-                                aria-expanded="false"><i data-feather="message-square" class="feather-icon"></i><span
-                                    class="hide-menu">Chat</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="app-calendar.html"
-                                aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i><span
-                                    class="hide-menu">Calendar</span></a></li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link sidebar-link" th:href="@{/admin/user/auditUserList}" aria-expanded="false">
+                                <i data-feather="message-square" class="feather-icon"></i>
+                                <span class="hide-menu">审核列表</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" th:href="@{/admin/user/auditUserList}"
+                                                     aria-expanded="false"><i data-feather="calendar" class="feather-icon"></i>
+                            <span class="hide-menu">航班列表</span></a></li>
 
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Components</span></li>
@@ -596,11 +599,11 @@
 
                                 <div class="input-group">
                                     <!-- 录入按钮 -->
-                                    <a th:href="@{/admin/addUser}">
+                                    <a th:href="@{/admin/user/addUser}">
                                         <button class="btn btn-primary add-button">录入</button>
                                     </a>
                                     <!-- 查询框和搜索按钮的子容器 -->
-<!--                                    <form th:action="@{/admin/selectByUsername}" th:object="${user}" method="get" class="search-group">-->
+<!--                                    <form th:action="@{/admin/user/selectByUsername}" th:object="${user}" method="get" class="search-group">-->
 <!--                                        <input type="text"-->
 <!--                                               th:field="*{username}"-->
 <!--                                               placeholder="请输入用户名"-->
@@ -608,7 +611,7 @@
 <!--                                        <input type="hidden" name="page" th:value="1"> &lt;!&ndash; 搜索时重置页码 &ndash;&gt;-->
 <!--                                        <button type="submit" class="btn btn-primary">搜索</button>-->
 <!--                                    </form>-->
-                                    <form th:action="@{/admin/selectByUsername}" method="get" class="search-group">
+                                    <form th:action="@{/admin/user/selectByUsername}" method="get" class="search-group">
                                         <input type="text" name="username" placeholder="请输入用户名" class="form-control">
                                         <input type="hidden" name="page" th:value="1"> <!-- 搜索时重置页码 -->
                                         <button type="submit" class="btn btn-primary">搜索</button>
@@ -647,11 +650,11 @@
                                                 <span th:if="${user.status == 0}" class="badge badge-danger">黑名单</span>
                                             </td>
                                             <td>
-                                                <a th:href="@{/admin/updateUser/{userId}(userId=${user.userId})}"
+                                                <a th:href="@{/admin/user/updateUser/{userId}(userId=${user.userId})}"
                                                    class="btn btn-sm btn-primary">
                                                     编辑
                                                 </a>
-                                                <form th:action="@{/admin/deleteUser}" method="post" style="display: inline;">
+                                                <form th:action="@{/admin/user/deleteUser}" method="post" style="display: inline;">
                                                     <input type="hidden" name="uids" th:value="${user.userId}">
                                                     <button type="submit" class="btn btn-sm btn-danger">删除</button>
                                                 </form>
@@ -661,7 +664,7 @@
                                     </table>
                                 </div>
                                     <!-- 批量删除按钮 -->
-                                    <form id="batchDeleteForm" th:action="@{/admin/deleteUser}" method="post">
+                                    <form id="batchDeleteForm" th:action="@{/admin/user/deleteUser}" method="post">
                                         <button type="button" id="batchDeleteBtn" class="btn btn-danger">批量删除</button>
                                     </form>
                                     <!-- 分页组件 -->

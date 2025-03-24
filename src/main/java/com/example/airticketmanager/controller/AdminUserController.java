@@ -15,7 +15,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/user")
 @Slf4j
 public class AdminUserController {
     @Autowired
@@ -37,7 +37,7 @@ public class AdminUserController {
     public String addUser(@ModelAttribute User user){ //表单用@ModelAttribute @RequstBody适用于ajax请求
         log.info("新增员工");
         adminUserService.insert(user);
-        return "redirect:/admin/list";
+        return "redirect:/admin/user/list";
     }
 
     /**
@@ -85,7 +85,7 @@ public class AdminUserController {
     public String deleteUser(@RequestParam List<Integer> uids) {
         log.info("删除员工id为: {}", uids);
         adminUserService.deleteById(uids);
-        return "redirect:/admin/list"; // 删除后重定向到用户列表页面
+        return "redirect:/admin/user/list"; // 删除后重定向到用户列表页面
     }
     /**
      * 根据id获取到用户信息，并将用户信息渲染到页面
@@ -111,7 +111,7 @@ public class AdminUserController {
         } else {
             log.info("修改失败");
         }
-        return "redirect:/admin/list"; // 返回用户列表页
+        return "redirect:/admin/user/list"; // 返回用户列表页
     }
 
     /**
@@ -178,7 +178,7 @@ public class AdminUserController {
         user.setTel(auditUser.getTel());
         adminUserService.insert(user);
         adminUserService.deleteByAuditId(auditId);
-        return "redirect:/admin/auditUserList";
+        return "redirect:/admin/user/auditUserList";
     }
 
     /**
@@ -189,6 +189,6 @@ public class AdminUserController {
     @PostMapping("/reject")
     public String reject(@RequestParam int auditId){
         adminUserService.deleteByAuditId(auditId);
-        return "redirect:/admin/auditUserList";
+        return "redirect:/admin/user/auditUserList";
     }
 }
