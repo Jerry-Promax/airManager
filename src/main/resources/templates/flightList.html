@@ -605,7 +605,7 @@
                                     <!-- 查询框和搜索按钮的子容器 -->
                                     <div class="search-group">
                                         <form th:action="@{/admin/flight/selectByFlightNumber}" th:object="${flight}" method="get">
-                                            <input type="text" th:field="*{flightNumber}" placeholder="搜索用户名">
+                                            <input type="text" th:field="*{flightNumber}" placeholder="搜索航班编号">
                                             <button type="submit" class="btn btn-primary">搜索</button>
                                         </form>
                                     </div>
@@ -643,23 +643,27 @@
                                             <td th:text="${flight.arrivalTime}"></td>
 
                                             <td>
-                                                <a th:href="@{/admin/flight/updateFlight/{flightNumber}(flightNumber=${flight.flightNumber})}"
+<!--                                                <a th:href="@{/admin/flight/updateFlight/{flightNumber}(flightNumber=${flight.flightNumber})}"-->
+<!--                                                   class="btn btn-sm btn-primary">-->
+<!--                                                    编辑-->
+<!--                                                </a>-->
+                                                <a th:href="@{/admin/flight/updateFlight(flightNumber=${flight.flightNumber})}"
                                                    class="btn btn-sm btn-primary">
                                                     编辑
                                                 </a>
-<!--                                                <form th:action="@{/admin/user/deleteUser}" method="post" style="display: inline;">-->
-<!--                                                    <input type="hidden" name="uids" th:value="${user.userId}">-->
-<!--                                                    <button type="submit" class="btn btn-sm btn-danger">删除</button>-->
-<!--                                                </form>-->
+                                                <form th:action="@{/admin/flight/deleteFlight}" method="post" style="display: inline;">
+                                                    <input type="hidden" name="flightIds" th:value="${flight.flightId}">
+                                                    <button type="submit" class="btn btn-sm btn-danger">删除</button>
+                                                </form>
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
-<!--                                    &lt;!&ndash; 批量删除按钮 &ndash;&gt;-->
-<!--                                    <form id="batchDeleteForm" th:action="@{/admin/user/deleteUser}" method="post">-->
-<!--                                        <button type="button" id="batchDeleteBtn" class="btn btn-danger">批量删除</button>-->
-<!--                                    </form>-->
+                                    <!-- 批量删除按钮 -->
+                                    <form id="batchDeleteForm" th:action="@{/admin/flight/deleteFlight}" method="post">
+                                        <button type="button" id="batchDeleteBtn" class="btn btn-danger">批量删除</button>
+                                    </form>
                                     <!-- 分页组件 -->
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination">
@@ -734,7 +738,7 @@
         checkboxes.forEach(checkbox => {
             const input = document.createElement('input');
             input.type = 'hidden';
-            input.name = 'uids';
+            input.name = 'flightIds';
             input.value = checkbox.value;
             form.appendChild(input);
         });

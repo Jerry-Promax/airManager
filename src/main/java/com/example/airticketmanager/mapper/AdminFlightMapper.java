@@ -9,6 +9,7 @@ import java.util.List;
 public interface AdminFlightMapper {
 
     @Results({
+            @Result(property = "flightId", column = "flight_id"),
             @Result(property = "flightNumber", column = "flight_number"),
             @Result(property = "departureTime", column = "departure_time"),
             @Result(property = "arrivalTime", column = "arrival_time"),
@@ -50,4 +51,19 @@ public interface AdminFlightMapper {
     int updateFlight(Flight flight);
 
 
+    @Delete("delete from flights where flight_id = #{flightId};")
+    void deleteByFlightId(Integer flightId);
+
+    @Select("select count(*) from flights where flight_number LIKE CONCAT('%',#{flightNumber},'%')")
+    int countSelectByFlights(String flightNumber);
+
+    /**
+     * 搜索框查找模糊匹配
+     * @param offset
+     * @param size
+     * @param flightNumber
+     * @return
+     */
+    @Select("select * from flights where flight_number LIKE CONCAT('%',#{flightNumber},'%') limit #{size} offset #{offset};")
+    List<Flight> findByFlightNumber(@Param("offset") int offset, @Param("size") int size, @Param("flightNumber") String flightNumber);
 }

@@ -48,7 +48,7 @@ public interface AdminUserMapper {
 
     List<User> selectByUsername(@Param("username") String username,@Param("offset") int offset, @Param("limit") int limit);
 
-    int countSelectUsers();
+    int countSelectUsers(String username);
 
     List<User> selectAuditUsersByPage(@Param("offset") int offset, @Param("limit") int limit);
 

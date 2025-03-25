@@ -118,7 +118,7 @@ public class AdminUserController {
      * 根据用户名进行模糊匹配
      * @param page
      * @param size
-     * @param user
+     * @param username
      * @param model
      * @return
      */
@@ -132,6 +132,10 @@ public class AdminUserController {
         log.info("用户:{}",username);
         int totalCount = adminUserService.countSelectUsers(username);
         int totalPages = (int) Math.ceil((double) totalCount / size);
+
+        model.addAttribute("size", size);
+        model.addAttribute("username", username);
+
         model.addAttribute("users", users);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);

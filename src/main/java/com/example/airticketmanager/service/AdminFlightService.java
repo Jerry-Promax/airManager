@@ -13,11 +13,17 @@ public interface AdminFlightService {
      */
     List<Flight> getFlightsByPage(int page, int size);
 
-    int countUsers();
+    int countFlights();
 
     void insert(Flight flight);
 
     Flight selectByFlightNumber(String flightNumber);
 
     int updateFlight(Flight flight);
+
+    void deleteByFightId(List<Integer> flightIds);
+
+    int countSelectByFlights(String flightNumber);
+
+    List<Flight> findByFlightNumber(int page, int size, String flightNumber);
 }

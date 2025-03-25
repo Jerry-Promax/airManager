@@ -51,7 +51,7 @@ public class AdminFlightController {
                     + "&page=" + page + "&size=" + size;
         }
         List<Flight> flightList = adminFlightService.getFlightsByPage(page, size);
-        int totalCount = adminFlightService.countUsers();
+        int totalCount = adminFlightService.countFlights();
         int totalPages = (int) Math.ceil((double) totalCount / size);
         model.addAttribute("flightList", flightList);
         model.addAttribute("currentPage", page);
@@ -79,15 +79,22 @@ public class AdminFlightController {
     /**
      * 根据航班编号获取到航班信息，并将航班信息渲染到页面
      */
-    @GetMapping("/updateFlight/{flightNumber}")
-    public String showEditForm(@PathVariable("flightNumber") String flightNumber,
+//    @GetMapping("/updateFlight/{flightNumber}")
+//    public String showEditForm(@PathVariable("flightNumber") String flightNumber,
+//                               Model model) {
+//        log.info("航班编号为：{}",flightNumber);
+//        Flight flight = adminFlightService.selectByFlightNumber(flightNumber);
+//        model.addAttribute("flight", flight);
+//        return "updateFlight"; // 编辑页面视图名称
+//    }
+    @GetMapping("/updateFlight")
+    public String showEditForm(@RequestParam("flightNumber") String flightNumber,
                                Model model) {
         log.info("航班编号为：{}",flightNumber);
         Flight flight = adminFlightService.selectByFlightNumber(flightNumber);
         model.addAttribute("flight", flight);
         return "updateFlight"; // 编辑页面视图名称
     }
-
     /**
      * 修改航班信息
      * @param flight
@@ -104,5 +111,46 @@ public class AdminFlightController {
             log.info("修改失败");
         }
         return "redirect:/admin/flight/list";
+    }
+
+    /**
+     * 根据id删除航班信息
+     * @param flightIds
+     * @return
+     */
+    @PostMapping("/deleteFlight")
+    public String deleteFlight(@RequestParam List<Integer> flightIds){
+        log.info("删除的航班编号：{}",flightIds);
+        adminFlightService.deleteByFightId(flightIds);
+        return "redirect:/admin/flight/list";
+    }
+
+    /**
+     * 根据搜索框的内容来查找
+     * @param page
+     * @param size
+     * @param flightNumber
+     * @param model
+     * @return
+     */
+
+    @GetMapping("/selectByFlightNumber")
+    public String findFlight(@RequestParam(defaultValue = "1") int page,
+                             @RequestParam(defaultValue = "10") int size,
+                             @RequestParam(value = "flightNumber") String flightNumber,
+                             Model model
+                             ){
+        List<Flight> flightList = adminFlightService.findByFlightNumber(page,size,flightNumber);
+        int totalCount = adminFlightService.countSelectByFlights(flightNumber);
+        int totalPages = (int) Math.ceil((double) totalCount / size);
+
+        model.addAttribute("size", size);
+        model.addAttribute("flightNumber", flightNumber);
+
+        model.addAttribute("flightList",flightList);
+        model.addAttribute("currentPage",page);
+        model.addAttribute("totalPages",totalPages);
+        model.addAttribute("totalCount",totalCount);
+        return "selectListOfFlight";
     }
 }

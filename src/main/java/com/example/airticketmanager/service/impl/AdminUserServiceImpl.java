@@ -81,7 +81,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public int countSelectUsers(String username) {
-        return adminUserMapper.countSelectUsers();
+        return adminUserMapper.countSelectUsers(username);
     }
 
     @Override
