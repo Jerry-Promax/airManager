@@ -2,6 +2,8 @@ package com.example.airticketmanager.service;
 
 import com.example.airticketmanager.entity.Flight;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AdminFlightService {
@@ -26,4 +28,6 @@ public interface AdminFlightService {
     int countSelectByFlights(String flightNumber);
 
     List<Flight> findByFlightNumber(int page, int size, String flightNumber);
+
+    List<Flight> userNeedFlight(String departure, String arrival, LocalDate departureTime);
 }

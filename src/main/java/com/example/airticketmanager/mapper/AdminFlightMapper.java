@@ -3,6 +3,8 @@ package com.example.airticketmanager.mapper;
 import com.example.airticketmanager.entity.Flight;
 import org.apache.ibatis.annotations.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -66,4 +68,14 @@ public interface AdminFlightMapper {
      */
     @Select("select * from flights where flight_number LIKE CONCAT('%',#{flightNumber},'%') limit #{size} offset #{offset};")
     List<Flight> findByFlightNumber(@Param("offset") int offset, @Param("size") int size, @Param("flightNumber") String flightNumber);
+
+    /**
+     * 用户需要的航班
+     * @param departure
+     * @param arrival
+     * @param departureTime
+     * @return
+     */
+
+    List<Flight> userNeedFlight(@Param("departure") String departure,@Param("arrival") String arrival,@Param("departureTime") LocalDate departureTime);
 }

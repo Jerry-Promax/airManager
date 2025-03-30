@@ -1,16 +1,23 @@
 package com.example.airticketmanager.controller;
 
+import com.example.airticketmanager.entity.Flight;
 import com.example.airticketmanager.entity.User;
+import com.example.airticketmanager.service.AdminFlightService;
 import com.example.airticketmanager.service.AdminUserService;
 import com.example.airticketmanager.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -20,6 +27,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private AdminUserService adminUserService;
+    @Autowired
+    private AdminFlightService adminFlightService;
     /**
      * 返回注册页面
      * @return
@@ -96,4 +105,20 @@ public class UserController {
         return "redirect:/user/login";
 
     }
+
+    @GetMapping("/index")
+    public String indexPage(){
+        return "index";
+    }
+    @GetMapping("/queryFlightList")
+    public String query(String departure,
+                        String arrival,
+                        @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate departureTime,
+                        Model model){
+        log.info("时间为{},地点为{}",departureTime,departure);
+        List<Flight> flightList = adminFlightService.userNeedFlight(departure,arrival,departureTime);
+        model.addAttribute("flightList",flightList);
+        return "queryFlightList";
+    }
+
 }

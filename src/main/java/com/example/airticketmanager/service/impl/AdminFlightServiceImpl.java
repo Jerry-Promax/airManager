@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -73,5 +75,17 @@ public class AdminFlightServiceImpl implements AdminFlightService {
         int offset = (page - 1) * size;
         log.info("page页数{},offset的值{}",page,offset);
         return adminFlightMapper.findByFlightNumber(offset,size,flightNumber);
+    }
+
+    /**
+     * 用户所需要的航班
+     * @param departure
+     * @param arrival
+     * @param departureTime
+     * @return
+     */
+    @Override
+    public List<Flight> userNeedFlight(String departure, String arrival, LocalDate departureTime) {
+        return adminFlightMapper.userNeedFlight(departure,arrival,departureTime);
     }
 }

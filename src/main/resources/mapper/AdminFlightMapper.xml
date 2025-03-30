@@ -5,42 +5,15 @@
 
 <mapper namespace="com.example.airticketmanager.mapper.AdminFlightMapper">
 
-<!--    <resultMap id="flightResultMap" type="Flight">-->
-<!--        <result column="departure_time" property="departureTime"/>-->
-<!--        <result column="arrival_time" property="arrivalTime"/>-->
-<!--        <result column="flightNumber" property = "flight_number"/>-->
-<!--        <result column="departure" property="departure"/>-->
-<!--        <result column="arrival" property="arrival"/>-->
-<!--        <result column="totalSeats" property="total_seats"/>-->
-<!--        <result column="availableSeats" property="available_seats"/>-->
-<!--    </resultMap>-->
-<!--    <update id="updateFlight">-->
-<!--        UPDATE flights-->
-<!--        <set>-->
-<!--            &lt;!&ndash; 动态处理字段更新 &ndash;&gt;-->
-<!--            <if test="departureTime != null">-->
-<!--                departure_time = #{departureTime},-->
-<!--            </if>-->
-<!--            <if test="arrivalTime != null">-->
-<!--                arrival_time = #{arrivalTime},-->
-<!--            </if>-->
-<!--            <if test="departure != null and departure != ''">-->
-<!--                departure = #{departure},-->
-<!--            </if>-->
-<!--            <if test="arrival != null and arrival != ''">-->
-<!--                arrival = #{arrival},-->
-<!--            </if>-->
-<!--            <if test="totalSeats != null and totalSeats > 0">-->
-<!--                total_seats = #{totalSeats},-->
-<!--            </if>-->
-<!--            <if test="availableSeats != null and availableSeats >= 0">-->
-<!--                available_seats = #{availableSeats},-->
-<!--            </if>-->
-<!--        </set>-->
-<!--        WHERE flight_number = #{flightNumber}-->
-<!--    </update>-->
-
-
+    <resultMap id="flightResultMap" type="com.example.airticketmanager.entity.Flight">
+        <result column="departure_time" property="departureTime"/>
+        <result column="arrival_time" property="arrivalTime"/>
+        <result column="flight_number" property = "flightNumber"/>
+        <result column="departure" property="departure"/>
+        <result column="arrival" property="arrival"/>
+        <result column="total_seats" property="totalSeats"/>
+        <result column="available_seats" property="availableSeats"/>
+    </resultMap>
     <select id="selectFlightsByPage" resultType="com.example.airticketmanager.entity.Flight" >
         SELECT * FROM flights LIMIT #{limit} OFFSET #{offset}
     </select>
@@ -49,5 +22,19 @@
         SELECT COUNT(*) FROM flights
     </select>
 
+    <select id="userNeedFlight" resultMap="flightResultMap">
+        SELECT * FROM flights
+        <where>
+            <if test="departure != null and departure != ''">
+                departure = #{departure}
+            </if>
+            <if test="arrival != null and arrival != ''">
+                AND arrival = #{arrival}
+            </if>
+            <if test="departureTime != null">
+                AND DATE(departure_time) = DATE(#{departureTime})
+            </if>
+        </where>
+    </select>
 
 </mapper>

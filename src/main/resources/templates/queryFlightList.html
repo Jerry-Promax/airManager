@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<!--
+
+Template 2093 Flight
+
+http://www.tooplate.com/view/2093-flight
+
+-->
+    	<title>Flight - Contact Page</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/css/fontAwesome.css">
+        <link rel="stylesheet" href="/css/hero-slider.css">
+        <link rel="stylesheet" href="/css/owl-carousel.css">
+        <link rel="stylesheet" href="/css/tooplate-style.css">
+
+        <link href="https://fonts.googleapis.com/css?family=Spectral:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+
+        <script src="/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .flight-table {
+                font-size: 14px;
+                min-width: 1200px;
+            }
+            .status-planned {
+                background-color: #d4edda;
+                color: #155724;
+            }
+            .status-delayed {
+                background-color: #fff3cd;
+                color: #856404;
+            }
+            .table-header-bg {
+                background-color: #f8f9fa;
+            }
+            .results-section {
+                padding: 40px 0;
+                background: #f8f9fa;
+                min-height: calc(100vh - 200px);
+            }
+
+            .results-container {
+                max-width: 1400px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+                padding: 30px;
+            }
+
+            .table-title {
+                font-size: 24px;
+                color: #2c3e50;
+                margin-bottom: 25px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #e9ecef;
+                font-weight: 600;
+            }
+
+            .custom-table {
+                border-collapse: separate;
+                border-spacing: 0;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .custom-table thead {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+            }
+
+            .custom-table th {
+                padding: 16px 24px;
+                font-weight: 500;
+                border: none;
+            }
+
+            .custom-table td {
+                padding: 14px 24px;
+                vertical-align: middle;
+                border-color: #f1f3f5;
+                transition: all 0.2s ease;
+            }
+
+            .custom-table tbody tr:hover td {
+                background: #f8f9fa;
+                transform: translateX(4px);
+            }
+
+            .status-badge {
+                padding: 6px 12px;
+                border-radius: 20px;
+                font-size: 0.85em;
+                font-weight: 500;
+            }
+
+            .btn-back {
+                background: #667eea;
+                color: white;
+                padding: 10px 25px;
+                border-radius: 25px;
+                transition: all 0.3s ease;
+                border: none;
+                margin-top: 25px;
+            }
+
+            .btn-back:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+                background: #764ba2;
+            }
+
+            .no-results {
+                text-align: center;
+                padding: 50px;
+                background: #fff9f9;
+                border-radius: 12px;
+                border: 2px dashed #e9ecef;
+            }
+
+            .no-results img {
+                width: 120px;
+                margin-bottom: 20px;
+            }
+
+            .results-section {
+                font-size: 22px; /* 基础字号增大 */
+            }
+
+            .table-title {
+                font-size: 28px; /* 原24px增大到28px */
+                margin-bottom: 30px;
+            }
+
+            .custom-table {
+                font-size: 1em; /* 继承基础字号 */
+            }
+
+            .custom-table th {
+                font-size: 1.1em; /* 约17.6px */
+                padding: 18px 24px;
+            }
+
+            .custom-table td {
+                font-size: 1em; /* 16px */
+                padding: 16px 24px;
+            }
+
+            .status-badge {
+                font-size: 0.95em; /* 约15.2px */
+            }
+
+            .btn-back {
+                font-size: 1.1em;
+                padding: 12px 30px;
+            }
+            @media (max-width: 768px) {
+                .results-container {
+                    padding: 20px;
+                    margin: 15px;
+                }
+
+                .custom-table {
+                    font-size: 0.9em;
+                }
+
+                .custom-table th,
+                .custom-table td {
+                    padding: 12px 15px;
+                }
+            }
+        </style>
+    </head>
+
+<body>
+
+
+    <section class="page-heading" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="logo">
+                        <img src="/img/logo.png" alt="Flight Template">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="page-direction-button">
+                        <a href="index.html"><i class="fa fa-home"></i>Go Back Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- 结果表格 -->
+    <section class="results-section">
+        <div class="results-container">
+            <h2 class="table-title">📑 航班查询结果</h2>
+
+            <div th:if="${flightList.isEmpty()}" class="no-results">
+                <img src="/img/no-data.svg" alt="无结果">
+                <div class="alert alert-info">暂时没有找到符合条件的航班，建议调整搜索条件再试</div>
+            </div>
+
+            <div th:unless="${flightList.isEmpty()}" class="table-responsive">
+                <table class="table custom-table table-hover">
+                    <thead>
+                    <tr>
+                        <th>航班号</th>
+                        <th>日期</th>
+                        <th>出发地</th>
+                        <th>目的地</th>
+                        <th>总座位数</th>
+                        <th>剩余座位</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="flight : ${flightList}">
+                        <td th:text="${flight.flightNumber}"></td>
+                        <td th:text="${#temporals.format(flight.departureTime, 'yyyy-MM-dd')}"></td>
+                        <td>
+                            <span class="status-badge status-planned" th:text="${flight.departure}"></span>
+                        </td>
+                        <td>
+                            <span class="status-badge status-delayed" th:text="${flight.arrival}"></span>
+                        </td>
+                        <td th:text="${flight.totalSeats}"></td>
+                        <td>
+                            <span class="badge bg-primary" th:text="${flight.availableSeats}"></span>
+                        </td>
+                        <td>
+                            <button type="submit">购买</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center">
+                <a th:href="@{index}" class="btn btn-back">
+                    ← 返回重新搜索
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="primary-button">
+                        <a href="#" class="scroll-top">Back To Top</a>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <ul class="social-icons">
+                        <li><a href="https://www.facebook.com/tooplate"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                        <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                        <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-12">
+                    <p>Copyright &copy; 2018 Flight Tour and Travel Company
+                
+                | Design: <a href="http://www.tooplate.com/view/2093-flight" target="_parent"><em>Flight</em></a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+
+    <script src="/js/vendor/bootstrap.min.js"></script>
+
+    <script src="/js/plugins.js"></script>
+    <script src="/js/main.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        // navigation click actions 
+        $('.scroll-link').on('click', function(event){
+            event.preventDefault();
+            var sectionID = $(this).attr("data-id");
+            scrollToID('#' + sectionID, 750);
+        });
+        // scroll to top action
+        $('.scroll-top').on('click', function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop:0}, 'slow');         
+        });
+        // mobile nav toggle
+        $('#nav-toggle').on('click', function (event) {
+            event.preventDefault();
+            $('#main-nav').toggleClass("open");
+        });
+    });
+    // scroll function
+    function scrollToID(id, speed){
+        var offSet = 0;
+        var targetOffset = $(id).offset().top - offSet;
+        var mainNav = $('#main-nav');
+        $('html,body').animate({scrollTop:targetOffset}, speed);
+        if (mainNav.hasClass("open")) {
+            mainNav.css("height", "1px").removeClass("in").addClass("collapse");
+            mainNav.removeClass("open");
+        }
+    }
+    if (typeof console === "undefined") {
+        console = {
+            log: function() { }
+        };
+    }
+    </script>
+</body>
+</html>
