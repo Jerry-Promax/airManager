@@ -42,15 +42,20 @@
 }
 
 .owl-controls {
-  @media (max-width: @screen-sm-max) {
-    top: -120px;
-  }
   top: -200px;
   width: 100%;
   text-align: center;
+  /* 兼容旧版本 IE */
+  -ms-display: inline-block;
   display: inline-block;
 }
 
+/* 小屏幕样式 */
+@media (max-width: 767px) {
+  .owl-controls {
+    top: -120px;
+  }
+}
 .owl-controls a {
   color: #336699;
 }

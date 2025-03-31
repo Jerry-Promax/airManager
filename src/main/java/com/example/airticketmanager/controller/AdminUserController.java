@@ -6,12 +6,20 @@ import com.example.airticketmanager.service.AdminUserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 
 @Controller
@@ -101,27 +109,52 @@ public class AdminUserController {
      * 修改信息
      * @param user
      */
-    @PostMapping("/updateUser/{userId}")
-    public String updateUser(@PathVariable("userId") int userId,
-                             @ModelAttribute("user") User user) {
-//        user.setUserId(userId);
-        int updateResult = adminUserService.updateUser(user);
-        if (updateResult > 0) {
-           log.info("修改成功");
-        } else {
-            log.info("修改失败");
-        }
-        return "redirect:/admin/user/list"; // 返回用户列表页
-    }
+    @Value("${file.upload-dir}")
+    private String uploadDir; // 注入上传路径
 
-    /**
-     * 根据用户名进行模糊匹配
-     * @param page
-     * @param size
-     * @param username
-     * @param model
-     * @return
-     */
+    @PostMapping("/updateUser/{userId}")
+    public String updateUser(
+            @PathVariable("userId") int userId,
+            @ModelAttribute("user") User user,
+            @RequestParam(value = "avatarFile", required = false) MultipartFile avatarFile,
+            RedirectAttributes redirectAttributes) throws IOException {
+
+        // 处理文件上传
+        if (avatarFile != null && !avatarFile.isEmpty()) {
+            // 创建上传目录
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            // 生成唯一文件名
+            String originalFilename = avatarFile.getOriginalFilename();
+            String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            String newFileName = UUID.randomUUID() + fileExtension;
+
+            // 保存文件
+            Path filePath = uploadPath.resolve(newFileName);
+            avatarFile.transferTo(filePath.toFile());
+
+            // 设置相对路径（示例：/uploads/abc.jpg）
+            user.setPhoto("/uploads/" + newFileName);
+        }
+        int result = adminUserService.updateUser(user);
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("success", "更新成功");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "更新失败");
+        }
+        return "redirect:/admin/user/list";
+    }
+        /**
+         * 根据用户名进行模糊匹配
+         * @param page
+         * @param size
+         * @param username
+         * @param model
+         * @return
+         */
     @GetMapping("/selectByUsername")
     public String selectByUsername(@RequestParam(defaultValue = "1") int page,
                             @RequestParam(defaultValue = "10") int size,

@@ -37,13 +37,6 @@ public interface AdminUserMapper {
     @Select("select * from user where user_id= #{userId}")
     User selectById(int userId);
 
-    @Update("UPDATE user SET " +
-            "username = #{username}, " +
-            "password = #{password}, " +
-            "sex = #{sex}, " +
-            "tel = #{tel}, " +
-            "status = #{status} " +
-            "WHERE user_id = #{userId}")
     int updateUser(User user);
 
     List<User> selectByUsername(@Param("username") String username,@Param("offset") int offset, @Param("limit") int limit);

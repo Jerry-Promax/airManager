@@ -13,4 +13,5 @@ public class User {
     private String tel;
     private int status;
     private LocalDateTime createTime;
+    private String photo;
 }

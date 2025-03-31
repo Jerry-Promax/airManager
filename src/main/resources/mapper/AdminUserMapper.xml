@@ -25,7 +25,7 @@
         <!-- 其他属性映射 -->
     </resultMap>
 
-    <select id="selectUsersByPage" resultType="com.example.airticketmanager.entity.User" resultMap="UserResultMap">
+    <select id="selectUsersByPage" resultMap="UserResultMap">
         SELECT * FROM user LIMIT #{limit} OFFSET #{offset}
     </select>
 
@@ -33,7 +33,7 @@
         SELECT COUNT(*) FROM user
     </select>
 
-    <select id="selectByUsername" resultType="com.example.airticketmanager.entity.User" resultMap="UserResultMap">
+    <select id="selectByUsername" resultMap="UserResultMap">
         SELECT * FROM user
         WHERE username LIKE CONCAT('%', #{username}, '%')
         LIMIT #{limit}
@@ -46,8 +46,32 @@
         SELECT COUNT(*) FROM user where username LIKE CONCAT('%', #{username}, '%')
     </select>
 
-    <select id="selectAuditUsersByPage" resultType="com.example.airticketmanager.entity.User" resultMap="auditUserResultMap">
+    <select id="selectAuditUsersByPage" resultMap="auditUserResultMap">
         SELECT * FROM auditUser LIMIT #{limit} OFFSET #{offset}
     </select>
 
+    <update id="updateUser">
+        UPDATE user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="tel != null and tel != ''">
+                tel = #{tel},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="photo != null">
+                photo = #{photo},
+            </if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
 </mapper>
