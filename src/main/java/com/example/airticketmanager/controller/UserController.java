@@ -106,6 +106,7 @@ public class UserController {
 
     }
 
+    // 可以忽视，另一个端口号已实现
     @GetMapping("/index")
     public String indexPage(){
         return "index";

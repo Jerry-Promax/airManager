@@ -24,6 +24,6 @@ public interface UserMapper {
     int countByTel(@Param("tel") String tel);
 
 
-    @Select("select password from user where username = #{username}")
+    @Select("select password from manager where username = #{username}")
     String findUsername(String username);
 }

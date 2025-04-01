@@ -36,10 +36,10 @@ public class AdminFlightController {
                        HttpSession httpSession,
                        Model model){
         // 若未登录则直接返回login页面
-//        if (httpSession.getAttribute("username") == null) {
-//
-//            return "redirect:/user/login";
-//        }
+        if (httpSession.getAttribute("username") == null) {
+
+            return "redirect:/user/login";
+        }
         // 初始化搜索框空对象（首次访问时user为null）
         if (flight == null) {
             flight = new Flight();
@@ -93,17 +93,16 @@ public class AdminFlightController {
         log.info("航班编号为：{}",flightNumber);
         Flight flight = adminFlightService.selectByFlightNumber(flightNumber);
         model.addAttribute("flight", flight);
-        return "updateFlight"; // 编辑页面视图名称
+        return "updateFlight";
     }
     /**
      * 修改航班信息
      * @param flight
      * @return
      */
-    @PostMapping("/updateFlight/{flightNumber}")
-    public String updateFlight(@PathVariable String flightNumber,
-                               @ModelAttribute("flight") Flight flight){
-        flight.setFlightNumber(flightNumber);
+    @PostMapping("/updateFlight")
+    public String updateFlight(@ModelAttribute("flight") Flight flight){
+        log.info("flight对象{}",flight);
         int n = adminFlightService.updateFlight(flight);
         if (n > 0) {
             log.info("修改成功");

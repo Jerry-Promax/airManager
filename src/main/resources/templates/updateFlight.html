@@ -597,9 +597,11 @@
                 <!-- 表单容器 -->
                 <div class="form-container">
                     <h2>修改航班信息</h2>
-                    <form th:action="@{/admin/flight/updateFlight/{flightNumber}(flightNumber=${flight.flightNumber})}" th:object="${flight}" method="post">
+                    <form th:action="@{/admin/flight/updateFlight}" th:object="${flight}" method="post">
+
+<!--                        <form th:action="@{/admin/flight/updateFlight/{flightNumber}(flightNumber=${flight.flightNumber})}" th:object="${flight}" method="post">-->
                         <!-- 隐藏字段确保 flightNumber 提交 -->
-                        <input type="hidden" th:field="*{flightNumber}">
+<!--                        <input type="hidden" th:field="*{flightNumber}">-->
                         <div class="form-group">
                             <label for="departure">航班编号:</label>
                             <input type="text" id="flight_number" name="flightNumber"
