@@ -16,4 +16,5 @@ public class Flight {
     private Integer totalSeats;
     private Integer availableSeats;
     private Double price;
+
 }

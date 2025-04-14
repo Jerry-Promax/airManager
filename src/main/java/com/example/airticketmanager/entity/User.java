@@ -16,4 +16,5 @@ public class User {
     private int status;
     private LocalDateTime createTime;
     private String photo;
+
 }

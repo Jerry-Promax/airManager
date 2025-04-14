@@ -78,4 +78,7 @@ public interface AdminFlightMapper {
      */
 
     List<Flight> userNeedFlight(@Param("departure") String departure,@Param("arrival") String arrival,@Param("departureTime") LocalDate departureTime);
+
+    @Select("select * from flights where flight_number = #{flightNumber}")
+    Flight getFlightIdByFlightNumber(String flightNumber);
 }

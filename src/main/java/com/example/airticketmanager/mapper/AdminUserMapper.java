@@ -46,4 +46,6 @@ public interface AdminUserMapper {
     List<User> selectAuditUsersByPage(@Param("offset") int offset, @Param("limit") int limit);
 
 
+    @Select("select * from user where id_card = #{idCard}")
+    User getUserIdByIdCard(String idCard);
 }

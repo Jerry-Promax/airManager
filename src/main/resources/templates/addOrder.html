@@ -602,11 +602,7 @@
                 <!-- 表单容器 -->
                 <div class="form-container">
                     <h2>增添订单信息</h2>
-                    <form th:action="@{/admin/order/list}" method="post">
-                        <div class="form-group">
-                            <label for="orderId">订单编号:</label>
-                            <input type="text" id="orderId" name="orderId" required>
-                        </div>
+                    <form th:action="@{/admin/order/addOrder}" method="post">
                         <div class="form-group">
                             <label for="name">乘客姓名:</label>
                             <input type="text" id="name" name="name" required>
@@ -623,13 +619,10 @@
                             <label for="flightNumber">航班号:</label>
                             <input type="text" id="flightNumber" name="flightNumber" required>
                         </div>
+                        <!-- Todo 若后续需要在优化，则可以在添加具体的航班起飞时间和出发地显得更合理点，然后sql查询就根据这三个条件来查询,因为目前航班号是唯一的所以只会查询到一个对应的id-->
                         <div class="form-group">
                             <label for="seatNumber">座位号:</label>
                             <input type="text" id="seatNumber" name="seatNumber" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="price">价格:</label>
-                            <input type="text" id="price" name="price" required>
                         </div>
                         <button type="submit" class="submit-btn">提交</button>
                     </form>

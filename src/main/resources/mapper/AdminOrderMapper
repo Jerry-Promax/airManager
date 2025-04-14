@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.airticketmanager.mapper.AdminOrderMapper">
+
+    <resultMap id="OrderResultMap" type="com.example.airticketmanager.entity.Order">
+        <!-- 主表orders的字段映射 -->
+        <id property="orderId" column="order_id"/> <!-- 主键 -->
+        <result property="uid" column="order_user_id"/> <!-- 外键 -->
+        <result property="fid" column="flight_id"/> <!-- 外键 -->
+        <result property="orderStatus" column="order_status"/>
+        <result property="seatNumber" column="seat_number"/>
+        <result property="orderTime" column="order_time"/>
+        <result property="price" column="price"/>
+
+        <!-- 关联User对象 -->
+        <association property="user" javaType="com.example.airticketmanager.entity.User">
+            <id property="userId" column="user_user_id"/>
+            <result property="username" column = "username"/>
+            <result property = "password" column = "password"/>
+            <result property = "sex" column = "sex"/>
+            <result property = "tel" column = "tel"/>
+            <result property="createTime" column="create_time"/>
+            <result property="photo" column="photo"/>
+            <result property="name" column="name"/>
+            <result property="idCard" column="id_card"/>
+            <result property="tel" column="tel"/>
+        </association>
+    </resultMap>
+
+    <!-- 分页查询订单 -->
+    <select id="selectOrdersByPage" resultMap="OrderResultMap">
+        SELECT
+        o.order_id,
+        o.user_id      AS order_user_id,    <!-- orders.user_id 别名 -->
+        o.flight_id,  <!-- orders.flight_id 别名 -->
+        o.order_status,
+        o.seat_number,
+        o.order_time,
+        o.price,
+        u.name
+        FROM orders o
+        LEFT JOIN user u ON o.user_id = u.user_id
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+</mapper>

@@ -605,7 +605,7 @@
 
                                 <div class="input-group">
                                     <!-- 录入按钮 -->
-                                    <a th:href="@{/admin/flight/addFlight}">
+                                    <a th:href="@{/admin/order/addOrder}">
                                         <button class="btn btn-primary add-button">录入</button>
                                     </a>
                                     <!-- 查询框和搜索按钮的子容器 -->
@@ -631,6 +631,7 @@
                                                 <th>航班号</th>
                                                 <th>座位号</th>
                                                 <th>价格</th>
+                                                <th>操作</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -639,24 +640,21 @@
                                                 <input type="checkbox" name="uids" class="form-check-input select-checkbox"
                                                        th:value="${order.orderId}" style="position: relative;margin: auto;">
                                             </td>
-                                            <td th:text="${order.user.username}"></td>
-                                            <td th:text="${order.user.idCard}"></td>
-                                            <td th:text="${order.user.tel}"></td>
-                                            <td th:text="${order.flight.flilghtNumber}"></td>
+                                            <td th:text="${order.orderId}"></td>
+                                            <td th:text="${order.name}"></td>
+                                            <td th:text="${order.idCard}"></td>
+                                            <td th:text="${order.tel}"></td>
+                                            <td th:text="${order.flightNumber}"></td>
                                             <td th:text="${order.seatNumber}"></td>
                                             <td th:text="${order.price}"></td>
 
                                             <td>
-<!--                                                <a th:href="@{/admin/flight/updateFlight/{flightNumber}(flightNumber=${flight.flightNumber})}"-->
-<!--                                                   class="btn btn-sm btn-primary">-->
-<!--                                                    编辑-->
-<!--                                                </a>-->
-                                                <a th:href="@{/admin/flight/updateFlight(flightNumber=${flight.flightNumber})}"
+                                                <a th:href="@{/admin/order/updateOrder(order_id=${order.orderId})}"
                                                    class="btn btn-sm btn-primary">
                                                     编辑
                                                 </a>
-                                                <form th:action="@{/admin/flight/deleteFlight}" method="post" style="display: inline;">
-                                                    <input type="hidden" name="flightIds" th:value="${flight.flightId}">
+                                                <form th:action="@{/admin/order/deleteOrder}" method="post" style="display: inline;">
+                                                    <input type="hidden" name="orderIds" th:value="${order.orderId}">
                                                     <button type="submit" class="btn btn-sm btn-danger">删除</button>
                                                 </form>
                                             </td>
@@ -665,7 +663,7 @@
                                     </table>
                                 </div>
                                     <!-- 批量删除按钮 -->
-                                    <form id="batchDeleteForm" th:action="@{/admin/flight/deleteFlight}" method="post">
+                                    <form id="batchDeleteForm" th:action="@{/admin/order/deleteOrder}" method="post">
                                         <button type="button" id="batchDeleteBtn" class="btn btn-danger">批量删除</button>
                                     </form>
                                     <!-- 分页组件 -->
@@ -673,17 +671,17 @@
                                         <ul class="pagination">
                                             <!-- 上一页 -->
                                             <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
-                                                <a class="page-link" th:href="@{/admin/flight/list(page=${currentPage - 1}, size=${10})}">上一页</a>
+                                                <a class="page-link" th:href="@{/admin/order/list(page=${currentPage - 1}, size=${10})}">上一页</a>
                                             </li>
 
                                             <!-- 页码 -->
                                             <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage} ? 'active' : ''">
-                                                <a class="page-link" th:href="@{/admin/flight/list(page=${i}, size=${10})}" th:text="${i}"></a>
+                                                <a class="page-link" th:href="@{/admin/order/list(page=${i}, size=${10})}" th:text="${i}"></a>
                                             </li>
 
                                             <!-- 下一页 -->
                                             <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
-                                                <a class="page-link" th:href="@{/admin/flight/list(page=${currentPage + 1}, size=${10})}">下一页</a>
+                                                <a class="page-link" th:href="@{/admin/order/list(page=${currentPage + 1}, size=${10})}">下一页</a>
                                             </li>
                                         </ul>
                                     </nav>
