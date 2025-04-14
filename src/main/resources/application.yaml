@@ -16,5 +16,7 @@ mybatis:
     map-underscore-to-camel-case: true
 file:
   upload-dir: D:/uploads/
-
+logging:
+  level:
+    com.example.airticketmanager.mapper: DEBUG
 

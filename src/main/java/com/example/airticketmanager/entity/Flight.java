@@ -15,4 +15,5 @@ public class Flight {
     private String arrival;
     private Integer totalSeats;
     private Integer availableSeats;
+    private Double price;
 }

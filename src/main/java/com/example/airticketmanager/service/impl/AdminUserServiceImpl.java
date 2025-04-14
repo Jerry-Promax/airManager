@@ -29,7 +29,7 @@ public class AdminUserServiceImpl implements AdminUserService {
      */
     @Override
     public void insert(User user) {
-        user.setStatus(1);
+//        user.setStatus(1);
         user.setCreateTime(LocalDateTime.now());
         adminUserMapper.insert(user);
     }
@@ -112,6 +112,11 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public void deleteByAuditId(int auditId) {
         auditMapper.deleteByAuditId(auditId);
+    }
+
+    @Override
+    public int countAuditUsers() {
+        return auditMapper.countAuditUsers();
     }
 
 

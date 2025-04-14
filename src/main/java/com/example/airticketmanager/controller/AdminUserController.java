@@ -119,6 +119,7 @@ public class AdminUserController {
             @RequestParam(value = "avatarFile", required = false) MultipartFile avatarFile,
             RedirectAttributes redirectAttributes) throws IOException {
 
+        log.info("user对象的值为{}",user);
         // 处理文件上传
         if (avatarFile != null && !avatarFile.isEmpty()) {
             // 创建上传目录
@@ -190,7 +191,7 @@ public class AdminUserController {
             Model model
     ){
         List<User> auditUsers = adminUserService.getAuditUsersByPage(page, size);
-        int totalCount = adminUserService.countUsers();
+        int totalCount = adminUserService.countAuditUsers();
         int totalPages = (int) Math.ceil((double) totalCount / size);
         model.addAttribute("users", auditUsers);
         model.addAttribute("currentPage", page);

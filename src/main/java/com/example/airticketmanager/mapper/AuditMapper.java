@@ -22,4 +22,7 @@ public interface AuditMapper {
 
     @Delete("delete from auditUser where audit_id=#{auditId}")
     void deleteByAuditId(int auditId);
+
+    @Select("select count(*) from auditUser")
+    int countAuditUsers();
 }

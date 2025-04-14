@@ -80,6 +80,9 @@ public interface AdminUserService {
     void deleteByAuditId(int auditId);
 
 
-
-
+    /**
+     * 查询审核用户
+     * @return
+     */
+    int countAuditUsers();
 }
