@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.airticketmanager.mapper.AdminOrderMapper">
 
-    <select id="selectOrdersByPage" resultType="com.example.airticketmanager.vo.orderVo" >
+    <select id="selectOrdersByPage" resultType="com.example.airticketmanager.vo.OrderVo" >
         SELECT
         o.order_id,
         o.user_id ,    <!-- orders.user_id 别名 -->
@@ -26,7 +26,15 @@
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
-
+    <update id="updateOrder">
+        update orders
+        <set>
+            <if test="seatNumber != null and seatNumber != ''">
+                seat_number = #{seatNumber}
+            </if>
+        </set>
+        where order_id = #{orderId}
+    </update>
 
 
 

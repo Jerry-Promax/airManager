@@ -88,4 +88,14 @@ public class AdminFlightServiceImpl implements AdminFlightService {
     public List<Flight> userNeedFlight(String departure, String arrival, LocalDate departureTime) {
         return adminFlightMapper.userNeedFlight(departure,arrival,departureTime);
     }
+
+    /**
+     * 根据id查询航班
+     * @param flightId
+     * @return
+     */
+    @Override
+    public Flight selectById(Integer flightId) {
+        return adminFlightMapper.selectById(flightId);
+    }
 }

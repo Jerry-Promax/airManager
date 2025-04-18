@@ -1,9 +1,15 @@
 package com.example.airticketmanager.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class orderVo {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderVo {
     private Integer orderId;
     private Integer userId;
     private Integer flightId;

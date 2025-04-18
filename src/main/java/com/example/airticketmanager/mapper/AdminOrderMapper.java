@@ -2,7 +2,7 @@ package com.example.airticketmanager.mapper;
 
 import com.example.airticketmanager.dto.OrderDto;
 import com.example.airticketmanager.entity.Order;
-import com.example.airticketmanager.vo.orderVo;
+import com.example.airticketmanager.vo.OrderVo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 public interface AdminOrderMapper {
 
 //    @Select("SELECT * FROM orders LIMIT #{limit} OFFSET #{offset}")
-    List<orderVo> selectOrdersByPage(@Param("offset") int offset, @Param("limit") int limit);
+    List<OrderVo> selectOrdersByPage(@Param("offset") int offset, @Param("limit") int limit);
 
     @Select("SELECT COUNT(*) FROM orders")
     int countOrders();
@@ -23,4 +23,9 @@ public interface AdminOrderMapper {
 
     @Delete("delete from orders where order_id = #{orderId}")
     void deleteOrder(Integer orderId);
+
+    @Select("select * from orders where order_id = #{orderId}")
+    Order selectByOrderId(Integer orderId);
+
+    void updateOrder(OrderDto orderDto);
 }

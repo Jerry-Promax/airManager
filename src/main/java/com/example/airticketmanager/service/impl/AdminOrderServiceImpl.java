@@ -8,7 +8,7 @@ import com.example.airticketmanager.mapper.AdminFlightMapper;
 import com.example.airticketmanager.mapper.AdminOrderMapper;
 import com.example.airticketmanager.mapper.AdminUserMapper;
 import com.example.airticketmanager.service.AdminOrderService;
-import com.example.airticketmanager.vo.orderVo;
+import com.example.airticketmanager.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
     @Autowired
     private AdminFlightMapper adminFlightMapper;
     @Override
-    public List<orderVo> getOrdersByPage(int page, int size) {
+    public List<OrderVo> getOrdersByPage(int page, int size) {
         int offset = (page-1)*size;
         adminOrderMapper.selectOrdersByPage(offset, size);
         return adminOrderMapper.selectOrdersByPage(offset,size);
@@ -55,5 +55,15 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         for (Integer orderId:orderIds) {
             adminOrderMapper.deleteOrder(orderId);
         }
+    }
+
+    @Override
+    public Order selectByOrderId(Integer orderId) {
+        return adminOrderMapper.selectByOrderId(orderId);
+    }
+
+    @Override
+    public void updateOrder(OrderDto orderDto) {
+        adminOrderMapper.updateOrder(orderDto);
     }
 }

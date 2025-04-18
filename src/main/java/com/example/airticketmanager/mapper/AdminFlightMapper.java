@@ -81,4 +81,7 @@ public interface AdminFlightMapper {
 
     @Select("select * from flights where flight_number = #{flightNumber}")
     Flight getFlightIdByFlightNumber(String flightNumber);
+
+    @Select("select * from flights where flight_id = #{flightId}")
+    Flight selectById(Integer flightId);
 }

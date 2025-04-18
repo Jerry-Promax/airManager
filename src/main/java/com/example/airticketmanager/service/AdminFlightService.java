@@ -30,4 +30,6 @@ public interface AdminFlightService {
     List<Flight> findByFlightNumber(int page, int size, String flightNumber);
 
     List<Flight> userNeedFlight(String departure, String arrival, LocalDate departureTime);
+
+    Flight selectById(Integer flightId);
 }
