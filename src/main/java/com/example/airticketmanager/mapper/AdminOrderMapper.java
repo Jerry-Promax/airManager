@@ -27,5 +27,5 @@ public interface AdminOrderMapper {
     @Select("select * from orders where order_id = #{orderId}")
     Order selectByOrderId(Integer orderId);
 
-    void updateOrder(OrderDto orderDto);
+    void updateOrder(Order order);
 }

@@ -112,8 +112,6 @@ public class AdminOrderController {
      * @param orderDto
      * @return
      */
-    // Todo 目前只能修改座位号，其他信息没法修改，因为涉及到其他表，多表操作后续在做。可以先判断orderDto传的信息是否有变更，通过if条件判断，然
-    //  后若有变更，就查询修改后的userId和flightId，然后new一个order对象，把值全部copy过去，最后将order对象传给mapper层进行修改。
     @PostMapping("/updateOrder")
     public String updateOrder(@ModelAttribute("order") OrderDto orderDto){
         log.info("前端传递的值{}",orderDto);

@@ -29,8 +29,20 @@
     <update id="updateOrder">
         update orders
         <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="flightId != null and flightId != ''">
+                flight_id = #{flightId},
+            </if>
+            <if test="orderStatus != null and orderStatus != ''">
+                order_status = #{orderStatus},
+            </if>
             <if test="seatNumber != null and seatNumber != ''">
-                seat_number = #{seatNumber}
+                seat_number = #{seatNumber},
+            </if>
+            <if test="price != null and price != ''">
+                price = #{price}
             </if>
         </set>
         where order_id = #{orderId}

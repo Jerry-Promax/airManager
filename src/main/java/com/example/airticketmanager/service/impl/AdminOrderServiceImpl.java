@@ -9,6 +9,7 @@ import com.example.airticketmanager.mapper.AdminOrderMapper;
 import com.example.airticketmanager.mapper.AdminUserMapper;
 import com.example.airticketmanager.service.AdminOrderService;
 import com.example.airticketmanager.vo.OrderVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +65,16 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     public void updateOrder(OrderDto orderDto) {
-        adminOrderMapper.updateOrder(orderDto);
+        User user = adminUserMapper.getUserIdByIdCard(orderDto.getIdCard());
+        Flight flight = adminFlightMapper.getFlightIdByFlightNumber(orderDto.getFlightNumber());
+        Order order = Order.builder()
+                .orderId(orderDto.getOrderId())
+                .userId(user.getUserId())
+                .flightId(flight.getFlightId())
+                .orderStatus(1)
+                .seatNumber(orderDto.getSeatNumber())
+                .price(flight.getPrice())
+                .build();
+        adminOrderMapper.updateOrder(order);
     }
 }
