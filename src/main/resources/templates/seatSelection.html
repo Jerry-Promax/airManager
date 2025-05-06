@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>云端选座 | 航空座位预约系统</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --text-color: #2c3e50;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            font-size: 2.2rem;
+        }
+
+        .airplane-top {
+            height: 40px;
+            background: #dfe6e9;
+            margin: -2rem -2rem 2rem;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+        }
+
+        .seat-map {
+            position: relative;
+            padding: 1rem 0;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0.8rem 0;
+            position: relative;
+        }
+
+        .row::before {
+            color: #3498db;       /* 改为更醒目的颜色 */
+            font-weight: bold;    /* 加粗显示 */
+            left: -30px;          /* 调整位置 */
+            font-size: 1em;       /* 增大字号 */
+        }
+
+        .seat {
+            width: 45px;
+            height: 45px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            background: #ecf0f1;
+            color: var(--text-color);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .seat.available:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+        }
+
+        .seat.available {
+            background: linear-gradient(145deg, #9fdf9f, #8ecd8e);
+            color: #2c3e50;
+        }
+
+        .seat.selected {
+            background: linear-gradient(145deg, #7ec8e3, #6cb2cd);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .seat.booked {
+            background: linear-gradient(145deg, #ff6b6b, #e74c3c);
+            color: white;
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .aisle {
+            width: 80px;
+            position: relative;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+
+        .aisle::after {
+            content: "过道";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        .controls {
+            text-align: center;
+            margin: 2rem 0 1rem;
+        }
+
+        button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .seat-info {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            border: 2px dashed #dfe6e9;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .seat {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9em;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .notification.active {
+            transform: translateX(0);
+        }
+
+        /* 新增返回按钮样式 */
+        .nav-controls {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .return-btn {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .return-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+        }
+
+        .return-btn::before {
+            content: "←";
+            font-size: 1.2em;
+        }
+
+        /* 调整原有容器布局 */
+        .container {
+            position: relative;
+            padding-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="airplane-top"></div>
+    <div class="nav-controls">
+        <button class="return-btn">返回上级</button>
+    </div>
+    <h1>✈️ 云端选座系统</h1>
+
+    <div class="seat-map" id="seatMap"></div>
+
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background: #9fdf9f"></div>
+            <span>可选座位</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #7ec8e3"></div>
+            <span>已选座位</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ff6b6b"></div>
+            <span>已预订座位</span>
+        </div>
+    </div>
+
+    <div class="controls">
+        <form id="seatForm" th:action="@{/admin/order/updateOrder}" method="get">
+            <input type="hidden" name="orderId" th:value="${orderId}">
+            <input type="hidden" name="seatNumber" id="selectedSeatInput">
+            <button onclick="confirmSelection(event)" type="submit" id="confirmBtn" disabled>确认选择座位</button>
+            <button type="button" id="luggageBtn" class="luggage-btn" disabled>办理行李托运</button>
+        </form>
+    </div>
+
+    <!-- 行李托运弹窗 -->
+    <div id="luggageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>行李托运信息</h3>
+            <div class="form-group">
+                <label>行李数量</label>
+                <input type="number" id="luggageCount" min="0" max="5">
+            </div>
+            <div class="form-group">
+                <label>行李重量(kg)</label>
+                <input type="number" id="weight" min="0" max="50">
+            </div>
+            <div class="form-group">
+                <label>特殊说明</label>
+                <textarea id="luggageNote" rows="3"></textarea>
+            </div>
+            <button id="submitLuggage">确认</button>
+        </div>
+    </div>
+
+    <div class="seat-info" id="seatInfo">
+        🪑 当前已选座位：尚未选择
+    </div>
+
+    <div class="notification" id="notification"></div>
+</div>
+
+<script>
+    // 初始化配置
+    const config = {
+        rows: 25,
+        seatCodes: ['A', 'B', 'C', 'D', 'E', 'F'],
+        bookedSeats: new Set(['1A', '2F', '5C', '12D']),
+        animationDuration: 300
+    };
+
+    let selectedSeat = null;
+
+    // 生成座位图
+    function generateSeatMap() {
+        const seatMap = document.getElementById('seatMap');
+        seatMap.innerHTML = '';
+
+        // 从Thymeleaf获取后端传来的已选座位
+        const serverBookedSeats = new Set([[${bookedSeats}]]);
+        
+        // 合并前端和后端的已选座位
+        const allBookedSeats = new Set([...config.bookedSeats, ...serverBookedSeats]);
+        
+        for(let row = 1; row <= config.rows; row++) {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'row';
+            rowDiv.dataset.row = row;
+
+            config.seatCodes.forEach((code, index) => {
+                const seat = document.createElement('div');
+                const seatId = `${row}${code}`;
+                const isBooked = allBookedSeats.has(seatId);
+
+                seat.className = `seat ${config.bookedSeats.has(seatId) ? 'booked' : 'available'}`;
+                seat.textContent = code;
+                seat.dataset.seatId = seatId;
+
+                if(!config.bookedSeats.has(seatId)) {
+                    seat.addEventListener('click', () => handleSeatSelect(seatId));
+                }
+
+                rowDiv.appendChild(seat);
+
+                // 添加过道
+                if(index === 2) {
+                    const aisle = document.createElement('div');
+                    aisle.className = 'aisle';
+                    rowDiv.appendChild(aisle);
+                }
+            });
+
+            seatMap.appendChild(rowDiv);
+        }
+    }
+
+    // 处理座位选择
+    function handleSeatSelect(seatId) {
+        if(selectedSeat === seatId) return;
+
+        const prevSeat = document.querySelector('.selected');
+        const newSeat = document.querySelector(`[data-seat-id="${seatId}"]`);
+
+        if(prevSeat) {
+            prevSeat.classList.remove('selected');
+            prevSeat.classList.add('available');
+        }
+
+        if(newSeat) {
+            newSeat.classList.remove('available');
+            newSeat.classList.add('selected');
+            selectedSeat = seatId;
+            document.getElementById('selectedSeatInput').value = seatId;
+            updateUI();
+        }
+    }
+
+    // 更新界面状态
+    function updateUI() {
+        const btn = document.getElementById('confirmBtn');
+        const luggageBtn = document.getElementById('luggageBtn');
+        const info = document.getElementById('seatInfo');
+
+        btn.disabled = !selectedSeat;
+        luggageBtn.disabled = !selectedSeat;
+        info.textContent = `🪑 当前已选座位：${selectedSeat || '尚未选择'}`;
+    }
+
+    // 行李托运弹窗逻辑
+    const modal = document.getElementById('luggageModal');
+    const luggageBtn = document.getElementById('luggageBtn');
+    const closeBtn = document.querySelector('.close');
+    const submitBtn = document.getElementById('submitLuggage');
+
+    luggageBtn.addEventListener('click', function() {
+        modal.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    submitBtn.addEventListener('click', function() {
+        const count = document.getElementById('luggageCount').value;
+        const weight = document.getElementById('weight').value;
+        const note = document.getElementById('luggageNote').value;
+        
+        if(!count || !weight) {
+            showNotification('请填写完整的行李信息');
+            return;
+        }
+        
+        // 添加超重收费逻辑
+        const overweightCharge = weight > 10 ? (weight - 10) * 50 : 0; // 假设超重部分每kg收费50元
+        if(overweightCharge > 0) {
+            if(!confirm(`您的行李超重${weight-10}kg，需额外支付${overweightCharge}元，是否继续？`)) {
+                return;
+            }
+        }
+        
+        document.getElementById('luggageCountInput').value = count;
+        document.getElementById('luggageWeightInput').value = weight;
+        document.getElementById('luggageNoteInput').value = note;
+        
+        modal.style.display = 'none';
+        showNotification(overweightCharge > 0 ? 
+            `行李托运信息已保存，超重费用: ${overweightCharge}元` : 
+            '行李托运信息已保存');
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
+    // 显示浮动通知
+    function showNotification(message) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.classList.add('active');
+        setTimeout(() => {
+            notification.classList.remove('active');
+        }, 3000);
+    }
+
+    // 初始化
+    generateSeatMap();
+
+    function confirmSelection(event) {
+        event.preventDefault();
+        
+        if(!selectedSeat) return;
+    
+        const seatElement = document.querySelector(`[data-seat-id="${selectedSeat}"]`);
+        if(seatElement) {
+            config.bookedSeats.add(selectedSeat);
+            seatElement.classList.remove('selected');
+            seatElement.classList.add('booked');
+            seatElement.removeEventListener('click', handleSeatSelect);
+
+            // 先显示通知
+            showNotification(`✅ 成功预订座位：${selectedSeat}`);
+
+            // 延迟提交表单以确保通知可见
+            setTimeout(() => {
+                document.getElementById('selectedSeatInput').value = selectedSeat;
+                document.getElementById('seatForm').submit();
+            }, 1000); // 1秒后提交
+        }
+    }
+</script>
+</body>
+</html>
+
+<style>
+    /* 新增行李按钮样式 */
+    .luggage-btn {
+        margin-left: 15px;
+        background: linear-gradient(135deg, #f39c12, #e67e22);
+    }
+    
+    .luggage-btn:hover {
+        background: linear-gradient(135deg, #e67e22, #d35400);
+    }
+    
+    /* 模态框样式 */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.4);
+    }
+    
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 400px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .form-group input, .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+</style>

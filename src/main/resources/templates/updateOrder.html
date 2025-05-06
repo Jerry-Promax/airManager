@@ -625,8 +625,9 @@
                             <input type="text" id="flightNumber" name="flightNumber" th:field="*{flightNumber}" required>
                         </div>
                         <div class="form-group">
-                            <label for="seatNumber">座位号:</label>
-                            <input type="text" id="seatNumber" name="seatNumber" th:field="*{seatNumber}" required>
+                            <label for="seatNumber">座位号</label>
+                            <input type="text" class="form-control" id="seatNumber" name="seatNumber" th:field="*{seatNumber}">
+                            <button type="button" class="btn btn-primary" onclick="openSeatSelection()">人工值机</button>
                         </div>
 
                         <button type="submit" class="submit-btn">提交</button>
@@ -665,6 +666,10 @@
             checkbox.checked = this.checked;
         });
     });
+    function openSeatSelection() {
+        const orderId = document.getElementById("orderId").value;
+        window.location.href = "/admin/order/seatSelection?orderId="+orderId;
+    }
 </script>
 
     <script src="/assets/libs/jquery/dist/jquery.min.js"></script>

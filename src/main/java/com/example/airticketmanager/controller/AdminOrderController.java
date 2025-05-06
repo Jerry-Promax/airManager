@@ -91,18 +91,21 @@ public class AdminOrderController {
      */
     @GetMapping("/updateOrder")
     public String showOrderForm(@RequestParam("orderId") Integer orderId,
-                                Model model){
+                           @RequestParam(value = "seatNumber", required = false) String seatNumber,
+                           Model model){
         Order order = adminOrderService.selectByOrderId(orderId);
         User user = adminUserService.selectById(order.getUserId());
         Flight flight = adminFlightService.selectById(order.getFlightId());
+        
         OrderVo orderVo = OrderVo.builder()
                 .orderId(orderId)
-                    .name(user.getName())
-                        .idCard(user.getIdCard())
-                            .tel(user.getTel())
-                                .flightNumber(flight.getFlightNumber())
-                                    .seatNumber(order.getSeatNumber())
-                                        .build();
+                .name(user.getName())
+                .idCard(user.getIdCard())
+                .tel(user.getTel())
+                .flightNumber(flight.getFlightNumber())
+                .seatNumber(seatNumber != null ? seatNumber : order.getSeatNumber())
+                .build();
+                
         model.addAttribute("order",orderVo);
         return "updateOrder";
     }
@@ -117,6 +120,16 @@ public class AdminOrderController {
         log.info("前端传递的值{}",orderDto);
         adminOrderService.updateOrder(orderDto);
         return "redirect:/admin/order/list";
+    }
+    /**
+     * 跳转到选座界面
+     * @return
+     */
+    @GetMapping("/seatSelection")
+    public String seatSelectionPage(@RequestParam(value = "orderId",required = false) Integer orderId,Model model){
+        log.info("orderId的值：{}",orderId);
+        model.addAttribute("orderId",orderId);
+        return "seatSelection";
     }
 }
 
