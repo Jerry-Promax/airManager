@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -54,6 +55,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
     @Override
     public void deleteOrder(List<Integer> orderIds) {
         for (Integer orderId:orderIds) {
+            adminOrderMapper.deleteLuggage(orderId);
             adminOrderMapper.deleteOrder(orderId);
         }
     }
@@ -76,5 +78,32 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 .price(flight.getPrice())
                 .build();
         adminOrderMapper.updateOrder(order);
+    }
+
+    @Override
+    public List<OrderVo> findByName(int page, int size, String name) {
+        List<Order> orderList = adminOrderMapper.findByName(page,size,name);
+        List<OrderVo> orderVoList =new ArrayList<>();
+        for (Order order : orderList) {
+
+            Flight flight = adminFlightMapper.selectById(order.getFlightId());
+            User user = adminUserMapper.selectById(order.getUserId());
+            OrderVo orderVo = OrderVo.builder()
+                            .orderId(order.getOrderId())
+                                    .name(user.getName())
+                                            .idCard(user.getIdCard())
+                                                    .tel(user.getTel())
+                                                            .flightNumber(flight.getFlightNumber())
+                                                                    .seatNumber(order.getSeatNumber())
+                                                                            .price(flight.getPrice())
+                                                                                    .build();
+            orderVoList.add(orderVo);
+        }
+        return orderVoList;
+    }
+
+    @Override
+    public int countOrdersByName(String name) {
+        return adminOrderMapper.countOrdersByName(name);
     }
 }

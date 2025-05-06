@@ -18,4 +18,8 @@ public interface AdminOrderService {
     Order selectByOrderId(Integer orderId);
 
     void updateOrder(OrderDto orderDto);
+
+    List<OrderVo> findByName(int page, int size, String name);
+
+    int countOrdersByName(String name);
 }

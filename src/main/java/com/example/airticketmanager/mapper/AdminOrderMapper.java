@@ -28,4 +28,19 @@ public interface AdminOrderMapper {
     Order selectByOrderId(Integer orderId);
 
     void updateOrder(Order order);
+
+    @Select(  "SELECT o.* " +
+            "FROM orders o " +
+            "JOIN user u ON o.user_id = u.user_id " +
+            "WHERE u.name = #{name}")
+    List<Order> findByName(int page, int size, String name);
+
+    @Select("SELECT count(*) " +
+            "FROM orders o " +
+            "JOIN user u ON o.user_id = u.user_id " +
+            "WHERE u.name = #{name}")
+    int countOrdersByName(String name);
+
+    @Delete("delete from luggage where order_id = #{orderId}")
+    void deleteLuggage(Integer orderId);
 }

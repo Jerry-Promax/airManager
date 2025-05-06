@@ -131,6 +131,25 @@ public class AdminOrderController {
         model.addAttribute("orderId",orderId);
         return "seatSelection";
     }
+
+    @GetMapping("/selectOrder")
+    public String findOrder(@RequestParam(defaultValue = "1") int page,
+                             @RequestParam(defaultValue = "10") int size,
+                             @RequestParam(value = "name") String name,
+                             Model model
+    ){
+        List<OrderVo> ordersList = adminOrderService.findByName(page,size,name);
+        int totalCount = adminOrderService.countOrdersByName(name);
+        int totalPages = (int) Math.ceil((double) totalCount / size);
+        model.addAttribute("size", size);
+        model.addAttribute("name", name);
+
+        model.addAttribute("orderList",ordersList);
+        model.addAttribute("currentPage",page);
+        model.addAttribute("totalPages",totalPages);
+        model.addAttribute("totalCount",totalCount);
+        return "selectListOfOrder";
+    }
 }
 
 
