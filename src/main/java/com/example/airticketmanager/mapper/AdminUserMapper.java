@@ -15,10 +15,14 @@ public interface AdminUserMapper {
             @Result(property = "password", column = "password"),
             @Result(property = "sex", column = "sex"),
             @Result(property = "tel", column = "tel"),
-            @Result(property = "status", column = "status")
+            @Result(property = "status", column = "status"),
+            @Result(property = "name",column = "name"),
+            @Result(property = "idCard",column = "id_card"),
     })
 
-    @Insert("insert into user (username,password,sex,tel,status,create_time) values (#{username},#{password},#{sex},#{tel},#{status},#{createTime})")
+    @Insert("insert into user (username,password,sex,tel,status,create_time,name,id_card) " +
+            "values" +
+            " (#{username},#{password},#{sex},#{tel},#{status},NOW(),#{name},#{idCard})")
     void insert(User user);
 
 
@@ -48,4 +52,7 @@ public interface AdminUserMapper {
 
     @Select("select * from user where id_card = #{idCard}")
     User getUserIdByIdCard(String idCard);
+
+    @Update("update user set password = #{pwd} where user_id = #{userId}")
+    void reset(@Param("userId") int userId,@Param("pwd") String pwd);
 }

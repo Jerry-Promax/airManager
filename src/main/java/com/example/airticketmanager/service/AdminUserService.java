@@ -85,4 +85,10 @@ public interface AdminUserService {
      * @return
      */
     int countAuditUsers();
+
+    /**
+     * 重置密码
+     * @param userId
+     */
+    void reset(int userId);
 }

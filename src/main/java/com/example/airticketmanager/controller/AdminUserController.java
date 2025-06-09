@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -57,7 +58,7 @@ public class AdminUserController {
     @GetMapping("/list")
     public String listUsers(@RequestParam(defaultValue = "1") int page,
                             @RequestParam(defaultValue = "10") int size,
-                            @ModelAttribute("user") User user, // 接收查询参数
+                            @ModelAttribute(value = "user") User user, // 接收查询参数
                             HttpSession httpSession,
                             Model model) {
         // 若未登录则直接返回login页面
@@ -72,8 +73,7 @@ public class AdminUserController {
         }
         // 判断是否是搜索请求
         if (StringUtils.hasText(user.getUsername())) {
-            return "redirect:/admin/selectByUsername?username=" + user.getUsername()
-                    + "&page=" + page + "&size=" + size;
+            return "redirect:/admin/selectByUsername?username=" + user.getUsername() + "&page=" + page + "&size=" + size;
         }
 
         List<User> users = adminUserService.getUsersByPage(page, size);
@@ -163,7 +163,6 @@ public class AdminUserController {
                             Model model) {
         log.info("用户:{}",username);
         List<User> users = adminUserService.selectByUsername(username,page,size);
-        log.info("用户:{}",username);
         int totalCount = adminUserService.countSelectUsers(username);
         int totalPages = (int) Math.ceil((double) totalCount / size);
 
@@ -214,6 +213,10 @@ public class AdminUserController {
         user.setPassword(auditUser.getPassword());
         user.setSex(auditUser.getSex());
         user.setTel(auditUser.getTel());
+        user.setName(auditUser.getName());
+        user.setIdCard(auditUser.getIdCard());
+        user.setStatus(1);
+        user.setCreateTime(LocalDateTime.now());
         adminUserService.insert(user);
         adminUserService.deleteByAuditId(auditId);
         return "redirect:/admin/user/auditUserList";
@@ -228,5 +231,15 @@ public class AdminUserController {
     public String reject(@RequestParam int auditId){
         adminUserService.deleteByAuditId(auditId);
         return "redirect:/admin/user/auditUserList";
+    }
+
+    /**
+     * 重置密码
+     * @param userId
+     */
+    @GetMapping("/resetPwd")
+    public String reset(@RequestParam("userId") int userId){
+        adminUserService.reset(userId);
+        return "redirect:/admin/user/list";
     }
 }

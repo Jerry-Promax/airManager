@@ -47,8 +47,7 @@ public class AdminFlightController {
         }
         // 判断是否是搜索请求
         if (StringUtils.hasText(flight.getFlightNumber())) {
-            return "redirect:/admin/flight/selectByFlightNumber?username=" + flight.getFlightNumber()
-                    + "&page=" + page + "&size=" + size;
+            return "redirect:/admin/flight/selectByFlightNumber?flightNumber=" + flight.getFlightNumber() + "&page=" + page + "&size=" + size;
         }
         List<Flight> flightList = adminFlightService.getFlightsByPage(page, size);
         int totalCount = adminFlightService.countFlights();

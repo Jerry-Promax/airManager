@@ -661,17 +661,24 @@
                                    th:if="${#fields.hasErrors('username')}"
                                    th:errors="*{username}"></small>
                         </div>
-
                         <div class="form-group">
-                            <label>密码：</label>
+                            <label>姓名：</label>
                             <input type="text" class="form-control"
-                                   th:field="*{password}"
+                                   th:field="*{name}"
                                    required
-                                   minlength="6">
-                            <small class="form-text text-danger"
-                                   th:if="${#fields.hasErrors('password')}"
-                                   th:errors="*{password}"></small>
+                                   minlength="2"
+                                   maxlength="20">
                         </div>
+<!--                        <div class="form-group">-->
+<!--                            <label>密码：</label>-->
+<!--                            <input type="text" class="form-control"-->
+<!--                                   th:field="*{password}"-->
+<!--                                   required-->
+<!--                                   minlength="6">-->
+<!--                            <small class="form-text text-danger"-->
+<!--                                   th:if="${#fields.hasErrors('password')}"-->
+<!--                                   th:errors="*{password}"></small>-->
+<!--                        </div>-->
 
                         <div class="form-group">
                             <label>性别：</label>
@@ -689,6 +696,15 @@
                                    required>
                             <small class="form-text text-muted">请输入11位手机号码</small>
                         </div>
+
+                        <div class="form-group">
+                        <label>身份证号：</label>
+                        <input type="tel" class="form-control"
+                               th:field="*{idCard}"
+                               pattern="[0-9]{18}"
+                               required>
+                        <small class="form-text text-muted">请输入18位身份证号码</small>
+                    </div>
 
                         <div class="form-group">
                             <label>账号状态：</label>

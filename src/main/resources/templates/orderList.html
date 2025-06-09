@@ -630,7 +630,10 @@
                                                 <th>乘客电话</th>
                                                 <th>航班号</th>
                                                 <th>座位号</th>
+                                                <th>起飞时间</th>
+                                                <th>到达时间</th>
                                                 <th>价格</th>
+                                                <th>下单时间</th>
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
@@ -646,7 +649,11 @@
                                             <td th:text="${order.tel}"></td>
                                             <td th:text="${order.flightNumber}"></td>
                                             <td th:text="${order.seatNumber}"></td>
+                                            <td th:text="${order.departureTime}"></td>
+                                            <td th:text="${order.arrivalTime}"></td>
                                             <td th:text="${order.price}"></td>
+                                            <td th:text="${order.orderTime}"></td>
+
 
                                             <td>
                                                 <a th:href="@{/admin/order/updateOrder(orderId=${order.orderId})}"

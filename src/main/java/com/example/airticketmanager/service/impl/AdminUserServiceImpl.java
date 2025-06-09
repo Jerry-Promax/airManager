@@ -8,6 +8,7 @@ import com.example.airticketmanager.service.AdminUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,8 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Autowired
     private AuditMapper auditMapper;
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     /**
      * 新增员工
      * @param user
@@ -29,8 +32,6 @@ public class AdminUserServiceImpl implements AdminUserService {
      */
     @Override
     public void insert(User user) {
-//        user.setStatus(1);
-        user.setCreateTime(LocalDateTime.now());
         adminUserMapper.insert(user);
     }
 
@@ -117,6 +118,12 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public int countAuditUsers() {
         return auditMapper.countAuditUsers();
+    }
+
+    @Override
+    public void reset(int userId) {
+        String pwd = "123456";
+        adminUserMapper.reset(userId,passwordEncoder.encode(pwd));
     }
 
 

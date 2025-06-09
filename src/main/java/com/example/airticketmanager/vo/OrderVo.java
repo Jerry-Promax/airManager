@@ -21,4 +21,6 @@ public class OrderVo {
     private String idCard;
     private String tel;
     private String flightNumber;
+    private String departureTime;
+    private String arrivalTime;
 }

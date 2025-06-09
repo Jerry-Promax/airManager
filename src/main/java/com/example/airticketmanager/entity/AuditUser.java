@@ -9,4 +9,6 @@ public class AuditUser {
     private String password;
     private String sex;
     private String tel;
+    private String name;
+    private String idCard;
 }

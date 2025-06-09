@@ -35,8 +35,8 @@ public interface AdminFlightMapper {
      * 增加航班
      * @param flight
      */
-    @Insert("INSERT INTO flights (flight_number, departure_time, arrival_time, departure, arrival, total_seats, available_seats) VALUES" +
-            "(#{flightNumber},#{departureTime},#{arrivalTime},#{departure},#{arrival},#{totalSeats},#{availableSeats})")
+    @Insert("INSERT INTO flights (flight_number, departure_time, arrival_time, departure, arrival, total_seats, available_seats,price) VALUES" +
+            "(#{flightNumber},#{departureTime},#{arrivalTime},#{departure},#{arrival},#{totalSeats},#{availableSeats},#{price})")
     void insert(Flight flight);
 
     @Select("select * from flights where flight_number = #{flightNumber}")

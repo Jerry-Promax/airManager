@@ -17,7 +17,9 @@
         u.id_card,
         u.tel,
         f.flight_id,
-        f.flight_number
+        f.flight_number,
+        f.departure_time,
+        f.arrival_time
         FROM orders o
         LEFT JOIN user u
             ON o.user_id = u.user_id
